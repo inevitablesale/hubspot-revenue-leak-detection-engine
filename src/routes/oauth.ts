@@ -4,9 +4,22 @@
  */
 
 import { Router, Request, Response } from 'express';
+import rateLimit from 'express-rate-limit';
 import { HubSpotOAuth } from '../auth/oauth';
 
 const router = Router();
+
+// Rate limiting for OAuth endpoints to prevent abuse
+const oauthRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // Limit each IP to 10 OAuth requests per window
+  message: { error: 'Too many OAuth requests, please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Apply rate limiting to all OAuth routes
+router.use(oauthRateLimiter);
 
 // Initialize OAuth handler from environment
 const getOAuthHandler = (): HubSpotOAuth => {

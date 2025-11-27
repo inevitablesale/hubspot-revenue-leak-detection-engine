@@ -54,7 +54,7 @@ export interface DetectionInput {
   dealAssociations?: Map<string, Deal[]>;
 }
 
-export class RevenuLeakDetectionEngine {
+export class RevenueLeakDetectionEngine {
   private underbillingDetector: UnderbillingDetector;
   private missedRenewalsDetector: MissedRenewalsDetector;
   private crossSellDetector: CrossSellDetector;
@@ -349,4 +349,4 @@ export {
   BillingGapDetector,
 };
 
-export default RevenuLeakDetectionEngine;
+export default RevenueLeakDetectionEngine;

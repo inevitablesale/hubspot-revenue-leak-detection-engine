@@ -5,7 +5,7 @@
 
 import { Router, Request, Response } from 'express';
 import { Client } from '@hubspot/api-client';
-import RevenuLeakDetectionEngine from '../engine';
+import RevenueLeakDetectionEngine from '../engine';
 import { Deal, Contact, Company, Contract, Invoice } from '../types';
 import { CRMCardBuilder } from '../crm/card-builder';
 
@@ -34,7 +34,7 @@ router.post('/full', async (req: Request, res: Response) => {
     }
 
     const hubspotClient = new Client({ accessToken });
-    const engine = new RevenuLeakDetectionEngine(req.body.config || {});
+    const engine = new RevenueLeakDetectionEngine(req.body.config || {});
 
     // Fetch deals
     const dealsResponse = await hubspotClient.crm.deals.basicApi.getPage(100, undefined, [
@@ -112,7 +112,7 @@ router.post('/deal/:dealId', async (req: Request, res: Response) => {
     }
 
     const hubspotClient = new Client({ accessToken });
-    const engine = new RevenuLeakDetectionEngine(req.body.config || {});
+    const engine = new RevenueLeakDetectionEngine(req.body.config || {});
 
     // Fetch the specific deal
     const dealResponse = await hubspotClient.crm.deals.basicApi.getById(dealId, [
@@ -168,7 +168,7 @@ router.post('/contact/:contactId', async (req: Request, res: Response) => {
     }
 
     const hubspotClient = new Client({ accessToken });
-    const engine = new RevenuLeakDetectionEngine(req.body.config || {});
+    const engine = new RevenueLeakDetectionEngine(req.body.config || {});
 
     // Fetch the specific contact
     const contactResponse = await hubspotClient.crm.contacts.basicApi.getById(contactId, [

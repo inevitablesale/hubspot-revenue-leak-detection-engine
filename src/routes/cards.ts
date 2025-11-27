@@ -6,7 +6,7 @@
 import { Router, Request, Response } from 'express';
 import { Client } from '@hubspot/api-client';
 import { CRMCardBuilder, buildDealCard, buildContactCard, buildCompanyCard } from '../crm/card-builder';
-import RevenuLeakDetectionEngine from '../engine';
+import RevenueLeakDetectionEngine from '../engine';
 import { Deal, Contact, Company, RevenueLeak } from '../types';
 
 const router = Router();
@@ -51,7 +51,7 @@ router.post('/deal', async (req: Request, res: Response) => {
 
     if (!leaks) {
       // Run detection (in production, this would be cached/precomputed)
-      const engine = new RevenuLeakDetectionEngine();
+      const engine = new RevenueLeakDetectionEngine();
       
       // Create mock deal for detection
       const mockDeal: Deal = {
@@ -100,7 +100,7 @@ router.post('/contact', async (req: Request, res: Response) => {
     let leaks = leakCache.get(cacheKey);
 
     if (!leaks) {
-      const engine = new RevenuLeakDetectionEngine();
+      const engine = new RevenueLeakDetectionEngine();
       
       const mockContact: Contact = {
         id: contactId,
@@ -146,7 +146,7 @@ router.post('/company', async (req: Request, res: Response) => {
     let leaks = leakCache.get(cacheKey);
 
     if (!leaks) {
-      const engine = new RevenuLeakDetectionEngine();
+      const engine = new RevenueLeakDetectionEngine();
       
       const mockCompany: Company = {
         id: companyId,

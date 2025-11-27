@@ -2,14 +2,14 @@
  * Tests for Main Revenue Leak Detection Engine
  */
 
-import RevenuLeakDetectionEngine from '../../src/engine';
+import RevenueLeakDetectionEngine from '../../src/engine';
 import { Deal, Contact } from '../../src/types';
 
-describe('RevenuLeakDetectionEngine', () => {
-  let engine: RevenuLeakDetectionEngine;
+describe('RevenueLeakDetectionEngine', () => {
+  let engine: RevenueLeakDetectionEngine;
 
   beforeEach(() => {
-    engine = new RevenuLeakDetectionEngine();
+    engine = new RevenueLeakDetectionEngine();
   });
 
   describe('detectLeaks', () => {
