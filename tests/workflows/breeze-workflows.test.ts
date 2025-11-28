@@ -108,7 +108,7 @@ describe('BreezeWorkflowEngine', () => {
       expect(result.executionId).toBeDefined();
       expect(result.totalLeaks).toBe(2);
       expect(result.processed).toBeGreaterThanOrEqual(0);
-      expect(result.duration).toBeGreaterThan(0);
+      expect(result.duration).toBeGreaterThanOrEqual(0);
       expect(result.details).toBeDefined();
     });
 

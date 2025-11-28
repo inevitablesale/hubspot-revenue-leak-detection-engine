@@ -62,7 +62,7 @@ describe('RevOpsAgentOS', () => {
     it('should return status with all modules enabled', () => {
       const status = agentOS.getStatus();
       
-      expect(status.version).toBe('1.0.0');
+      expect(status.version).toBe('2.0.0');
       expect(status.initialized).toBe(true);
       expect(status.modules.intelligence).toBe(true);
       expect(status.modules.orchestration).toBe(true);
@@ -73,6 +73,17 @@ describe('RevOpsAgentOS', () => {
       expect(status.modules.crossSignals).toBe(true);
       expect(status.modules.metaIntelligence).toBe(true);
       expect(status.modules.ruleEvolution).toBe(true);
+      // New advanced modules
+      expect(status.modules.kernelScheduler).toBe(true);
+      expect(status.modules.autonomousCycles).toBe(true);
+      expect(status.modules.multiAgentCooperation).toBe(true);
+      expect(status.modules.economicCostModel).toBe(true);
+      expect(status.modules.governanceConstitution).toBe(true);
+      expect(status.modules.driftDetection).toBe(true);
+      expect(status.modules.modelQualityIntrospection).toBe(true);
+      expect(status.modules.portalBaselines).toBe(true);
+      expect(status.modules.autonomyScores).toBe(true);
+      expect(status.modules.oneClickHardening).toBe(true);
     });
 
     it('should initialize with zero metrics', () => {

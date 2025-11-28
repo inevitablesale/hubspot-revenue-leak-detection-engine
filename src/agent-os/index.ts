@@ -12,6 +12,18 @@
  * - Ecosystem Cross-Signals
  * - Meta-Intelligence
  * - Rule Evolution
+ * 
+ * NEW AUTONOMOUS REVOPS INTELLIGENCE LAYER CAPABILITIES:
+ * - Kernel Scheduler (True OS-like behavior)
+ * - Autonomous Cycles (Self-running system)
+ * - Multi-Agent Cooperation (HubSpot ecosystem integration)
+ * - Economic Cost Model (Relevance + efficiency + load balancing)
+ * - Governance Constitution (Safety + guardrails + enterprise trust)
+ * - Drift Detection (RevOps rot prevention)
+ * - Model Quality Introspection (Self-learning + accuracy optimization)
+ * - Portal Baselines (Multi-portal intelligence + benchmarking)
+ * - Autonomy Scores (Measurable platform)
+ * - One-Click Hardening (Enterprise compliance + stability)
  */
 
 import { RevenueLeak, LeakDetectionResult } from '../types';
@@ -27,6 +39,18 @@ import { FinancialGovernanceEngine } from './financial-governance';
 import { EcosystemCrossSignals } from './ecosystem-cross-signals';
 import { MetaIntelligenceEngine } from './meta-intelligence';
 import { RuleEvolutionEngine } from './rule-evolution';
+
+// Import new advanced modules
+import { KernelScheduler } from './kernel-scheduler';
+import { AutonomousCyclesEngine } from './autonomous-cycles';
+import { MultiAgentCooperation } from './multi-agent-cooperation';
+import { EconomicCostModel } from './economic-cost-model';
+import { GovernanceConstitution } from './governance-constitution';
+import { DriftDetectionEngine } from './drift-detection';
+import { ModelQualityIntrospection } from './model-quality-introspection';
+import { PortalBaselinesEngine } from './portal-baselines';
+import { AutonomyScoresEngine } from './autonomy-scores';
+import { OneClickHardening } from './one-click-hardening';
 
 // Import types
 import { AgentOSConfig } from './types';
@@ -45,6 +69,17 @@ export {
   EcosystemCrossSignals,
   MetaIntelligenceEngine,
   RuleEvolutionEngine,
+  // New advanced modules
+  KernelScheduler,
+  AutonomousCyclesEngine,
+  MultiAgentCooperation,
+  EconomicCostModel,
+  GovernanceConstitution,
+  DriftDetectionEngine,
+  ModelQualityIntrospection,
+  PortalBaselinesEngine,
+  AutonomyScoresEngine,
+  OneClickHardening,
 };
 
 /**
@@ -63,6 +98,17 @@ export interface AgentOSStatus {
     crossSignals: boolean;
     metaIntelligence: boolean;
     ruleEvolution: boolean;
+    // New advanced modules
+    kernelScheduler: boolean;
+    autonomousCycles: boolean;
+    multiAgentCooperation: boolean;
+    economicCostModel: boolean;
+    governanceConstitution: boolean;
+    driftDetection: boolean;
+    modelQualityIntrospection: boolean;
+    portalBaselines: boolean;
+    autonomyScores: boolean;
+    oneClickHardening: boolean;
   };
   health: 'healthy' | 'degraded' | 'unhealthy';
   uptime: number;
@@ -84,6 +130,17 @@ export interface AgentOSMetrics {
   approvalsPending: number;
   alertsActive: number;
   rulesEvolved: number;
+  // New metrics for advanced modules
+  processesScheduled: number;
+  autonomousCyclesRun: number;
+  agentCollaborations: number;
+  costOptimizations: number;
+  policyViolations: number;
+  driftEventsDetected: number;
+  modelImprovements: number;
+  portalBenchmarks: number;
+  autonomyScore: number;
+  hardeningLevel: string;
 }
 
 /**
@@ -101,6 +158,18 @@ export class RevOpsAgentOS {
   public crossSignals: EcosystemCrossSignals;
   public metaIntelligence: MetaIntelligenceEngine;
   public ruleEvolution: RuleEvolutionEngine;
+
+  // New advanced module instances
+  public kernelScheduler: KernelScheduler;
+  public autonomousCycles: AutonomousCyclesEngine;
+  public multiAgentCooperation: MultiAgentCooperation;
+  public economicCostModel: EconomicCostModel;
+  public governanceConstitution: GovernanceConstitution;
+  public driftDetection: DriftDetectionEngine;
+  public modelQuality: ModelQualityIntrospection;
+  public portalBaselines: PortalBaselinesEngine;
+  public autonomyScores: AutonomyScoresEngine;
+  public hardening: OneClickHardening;
 
   private config: AgentOSConfig;
   private startTime: Date;
@@ -125,6 +194,18 @@ export class RevOpsAgentOS {
     this.metaIntelligence = new MetaIntelligenceEngine(this.config.metaIntelligence);
     this.ruleEvolution = new RuleEvolutionEngine(this.config.ruleEvolution);
 
+    // Initialize new advanced modules
+    this.kernelScheduler = new KernelScheduler();
+    this.autonomousCycles = new AutonomousCyclesEngine();
+    this.multiAgentCooperation = new MultiAgentCooperation(generateId());
+    this.economicCostModel = new EconomicCostModel();
+    this.governanceConstitution = new GovernanceConstitution();
+    this.driftDetection = new DriftDetectionEngine();
+    this.modelQuality = new ModelQualityIntrospection();
+    this.portalBaselines = new PortalBaselinesEngine();
+    this.autonomyScores = new AutonomyScoresEngine();
+    this.hardening = new OneClickHardening();
+
     // Initialize metrics
     this.metrics = {
       leaksDetected: 0,
@@ -138,6 +219,17 @@ export class RevOpsAgentOS {
       approvalsPending: 0,
       alertsActive: 0,
       rulesEvolved: 0,
+      // New metrics
+      processesScheduled: 0,
+      autonomousCyclesRun: 0,
+      agentCollaborations: 0,
+      costOptimizations: 0,
+      policyViolations: 0,
+      driftEventsDetected: 0,
+      modelImprovements: 0,
+      portalBenchmarks: 0,
+      autonomyScore: 0,
+      hardeningLevel: 'basic',
     };
   }
 
@@ -406,7 +498,7 @@ export class RevOpsAgentOS {
    */
   getStatus(): AgentOSStatus {
     return {
-      version: '1.0.0',
+      version: '2.0.0', // Upgraded version for Autonomous RevOps Intelligence Layer
       initialized: true,
       modules: {
         intelligence: this.config.intelligence.enabled,
@@ -418,6 +510,17 @@ export class RevOpsAgentOS {
         crossSignals: this.config.crossSignals.enabled,
         metaIntelligence: this.config.metaIntelligence.enabled,
         ruleEvolution: this.config.ruleEvolution.enabled,
+        // New advanced modules
+        kernelScheduler: true,
+        autonomousCycles: true,
+        multiAgentCooperation: true,
+        economicCostModel: true,
+        governanceConstitution: true,
+        driftDetection: true,
+        modelQualityIntrospection: true,
+        portalBaselines: true,
+        autonomyScores: true,
+        oneClickHardening: true,
       },
       health: this.selfHealing.getSystemHealth().overall,
       uptime: Date.now() - this.startTime.getTime(),
@@ -432,6 +535,18 @@ export class RevOpsAgentOS {
     // Update dynamic metrics
     this.metrics.approvalsPending = this.governance.getPendingApprovals().length;
     this.metrics.alertsActive = this.crossSignals.getActiveAlerts().length;
+    
+    // Update new advanced metrics
+    this.metrics.processesScheduled = this.kernelScheduler.getStats().totalProcesses;
+    this.metrics.autonomousCyclesRun = this.autonomousCycles.getStats().totalExecutions;
+    this.metrics.agentCollaborations = this.multiAgentCooperation.getStats().activeCollaborations;
+    this.metrics.costOptimizations = this.economicCostModel.getStats().totalCostEstimates;
+    this.metrics.policyViolations = this.governanceConstitution.getStats().totalViolations;
+    this.metrics.driftEventsDetected = this.driftDetection.getStats().totalEvents;
+    this.metrics.modelImprovements = this.modelQuality.getStats().learningSessions;
+    this.metrics.portalBenchmarks = this.portalBaselines.getStats().totalComparisons;
+    this.metrics.autonomyScore = this.autonomyScores.getStats().avgOverallScore;
+    this.metrics.hardeningLevel = this.hardening.getStatus().profile;
 
     return { ...this.metrics };
   }
@@ -473,6 +588,17 @@ export class RevOpsAgentOS {
     governance: ReturnType<FinancialGovernanceEngine['getStats']>;
     crossSignals: ReturnType<EcosystemCrossSignals['getStats']>;
     ruleEvolution: ReturnType<RuleEvolutionEngine['getStats']>;
+    // New advanced modules
+    kernelScheduler: ReturnType<KernelScheduler['getStats']>;
+    autonomousCycles: ReturnType<AutonomousCyclesEngine['getStats']>;
+    multiAgentCooperation: ReturnType<MultiAgentCooperation['getStats']>;
+    economicCostModel: ReturnType<EconomicCostModel['getStats']>;
+    governanceConstitution: ReturnType<GovernanceConstitution['getStats']>;
+    driftDetection: ReturnType<DriftDetectionEngine['getStats']>;
+    modelQuality: ReturnType<ModelQualityIntrospection['getStats']>;
+    portalBaselines: ReturnType<PortalBaselinesEngine['getStats']>;
+    autonomyScores: ReturnType<AutonomyScoresEngine['getStats']>;
+    hardening: ReturnType<OneClickHardening['getStats']>;
   } {
     return {
       intelligence: this.intelligence.getLearningStats(),
@@ -483,6 +609,17 @@ export class RevOpsAgentOS {
       governance: this.governance.getStats(),
       crossSignals: this.crossSignals.getStats(),
       ruleEvolution: this.ruleEvolution.getStats(),
+      // New advanced modules
+      kernelScheduler: this.kernelScheduler.getStats(),
+      autonomousCycles: this.autonomousCycles.getStats(),
+      multiAgentCooperation: this.multiAgentCooperation.getStats(),
+      economicCostModel: this.economicCostModel.getStats(),
+      governanceConstitution: this.governanceConstitution.getStats(),
+      driftDetection: this.driftDetection.getStats(),
+      modelQuality: this.modelQuality.getStats(),
+      portalBaselines: this.portalBaselines.getStats(),
+      autonomyScores: this.autonomyScores.getStats(),
+      hardening: this.hardening.getStats(),
     };
   }
 }
