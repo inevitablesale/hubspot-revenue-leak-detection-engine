@@ -227,8 +227,9 @@ function formatYAMLValue(value: unknown): string {
   if (typeof value === 'boolean') return value ? 'true' : 'false';
   if (typeof value === 'number') return String(value);
   if (typeof value === 'string') {
-    if (value.includes(':') || value.includes('#') || value.includes('\n')) {
-      return `"${value.replace(/"/g, '\\"')}"`;
+    if (value.includes(':') || value.includes('#') || value.includes('\n') || value.includes('\\')) {
+      // Escape backslashes first, then quotes
+      return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
     }
     return value;
   }

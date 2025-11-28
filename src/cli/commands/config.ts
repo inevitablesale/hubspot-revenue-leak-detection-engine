@@ -168,16 +168,25 @@ export class ConfigCommand {
     const parts = path.split('.');
     let current = obj;
 
+    // Prevent prototype pollution
+    const dangerousKeys = ['__proto__', 'constructor', 'prototype'];
+    
     for (let i = 0; i < parts.length - 1; i++) {
       const part = parts[i];
-      if (!(part in current)) {
+      if (dangerousKeys.includes(part)) {
+        throw new Error(`Invalid path: cannot access ${part}`);
+      }
+      if (!(part in current) || !Object.prototype.hasOwnProperty.call(current, part)) {
         throw new Error(`Path not found: ${parts.slice(0, i + 1).join('.')}`);
       }
       current = current[part] as Record<string, unknown>;
     }
 
     const lastPart = parts[parts.length - 1];
-    if (!(lastPart in current)) {
+    if (dangerousKeys.includes(lastPart)) {
+      throw new Error(`Invalid path: cannot access ${lastPart}`);
+    }
+    if (!(lastPart in current) || !Object.prototype.hasOwnProperty.call(current, lastPart)) {
       throw new Error(`Property not found: ${path}`);
     }
     current[lastPart] = value;
@@ -187,8 +196,17 @@ export class ConfigCommand {
     const parts = path.split('.');
     let current: unknown = obj;
 
+    // Prevent prototype pollution
+    const dangerousKeys = ['__proto__', 'constructor', 'prototype'];
+
     for (const part of parts) {
+      if (dangerousKeys.includes(part)) {
+        throw new Error(`Invalid path: cannot access ${part}`);
+      }
       if (current === null || current === undefined || typeof current !== 'object') {
+        throw new Error(`Path not found: ${path}`);
+      }
+      if (!Object.prototype.hasOwnProperty.call(current, part)) {
         throw new Error(`Path not found: ${path}`);
       }
       current = (current as Record<string, unknown>)[part];
