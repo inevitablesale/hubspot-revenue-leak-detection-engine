@@ -11,6 +11,18 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
+/**
+ * Helper to handle API response
+ */
+async function handleApiResponse<T>(response: Response): Promise<ApiResponse<T>> {
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    return { success: false, error: errorData.error || `HTTP ${response.status}` };
+  }
+  const data = await response.json();
+  return { success: true, data };
+}
+
 export async function fetchLeaksForEntity(
   entityType: 'deal' | 'contact' | 'company' | 'ticket',
   entityId: string
@@ -22,8 +34,7 @@ export async function fetchLeaksForEntity(
         'Content-Type': 'application/json',
       },
     });
-    const data = await response.json();
-    return { success: true, data };
+    return handleApiResponse(response);
   } catch (error) {
     return { success: false, error: (error as Error).message };
   }
@@ -44,8 +55,7 @@ export async function runDetectionScan(
       },
       body: JSON.stringify(options),
     });
-    const data = await response.json();
-    return { success: true, data };
+    return handleApiResponse(response);
   } catch (error) {
     return { success: false, error: (error as Error).message };
   }
@@ -63,8 +73,7 @@ export async function executeRecoveryAction(
       },
       body: JSON.stringify({ leakId }),
     });
-    const data = await response.json();
-    return { success: true, data };
+    return handleApiResponse(response);
   } catch (error) {
     return { success: false, error: (error as Error).message };
   }
@@ -83,8 +92,7 @@ export async function resolveLeak(
       },
       body: JSON.stringify({ resolution, resolvedBy }),
     });
-    const data = await response.json();
-    return { success: true, data };
+    return handleApiResponse(response);
   } catch (error) {
     return { success: false, error: (error as Error).message };
   }
@@ -98,8 +106,7 @@ export async function getAppConfig(): Promise<ApiResponse<any>> {
         'Content-Type': 'application/json',
       },
     });
-    const data = await response.json();
-    return { success: true, data };
+    return handleApiResponse(response);
   } catch (error) {
     return { success: false, error: (error as Error).message };
   }
@@ -114,8 +121,7 @@ export async function saveAppConfig(config: any): Promise<ApiResponse<any>> {
       },
       body: JSON.stringify(config),
     });
-    const data = await response.json();
-    return { success: true, data };
+    return handleApiResponse(response);
   } catch (error) {
     return { success: false, error: (error as Error).message };
   }
@@ -129,8 +135,7 @@ export async function getDashboardMetrics(): Promise<ApiResponse<any>> {
         'Content-Type': 'application/json',
       },
     });
-    const data = await response.json();
-    return { success: true, data };
+    return handleApiResponse(response);
   } catch (error) {
     return { success: false, error: (error as Error).message };
   }
@@ -146,8 +151,7 @@ export async function getIntegrationStatus(
         'Content-Type': 'application/json',
       },
     });
-    const data = await response.json();
-    return { success: true, data };
+    return handleApiResponse(response);
   } catch (error) {
     return { success: false, error: (error as Error).message };
   }
@@ -165,8 +169,7 @@ export async function connectIntegration(
       },
       body: JSON.stringify(credentials),
     });
-    const data = await response.json();
-    return { success: true, data };
+    return handleApiResponse(response);
   } catch (error) {
     return { success: false, error: (error as Error).message };
   }
@@ -193,8 +196,7 @@ export async function getAuditLog(
         'Content-Type': 'application/json',
       },
     });
-    const data = await response.json();
-    return { success: true, data };
+    return handleApiResponse(response);
   } catch (error) {
     return { success: false, error: (error as Error).message };
   }

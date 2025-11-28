@@ -389,13 +389,7 @@ export const DealLeakCard: React.FC<DealLeakCardProps> = ({
           gap: '8px',
         }}
       >
-        {state.isScanning ? (
-          <>
-            <span className="spinner" /> Running Scan...
-          </>
-        ) : (
-          '🔍 Run Scan'
-        )}
+        {state.isScanning ? '⏳ Running Scan...' : '🔍 Run Scan'}
       </button>
 
       {/* Leak List */}

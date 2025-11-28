@@ -1,6 +1,12 @@
 /**
  * Workflow Action API Routes
  * Handlers for HubSpot custom workflow actions
+ * 
+ * PRODUCTION NOTE: This implementation uses in-memory storage for demonstration.
+ * In production, replace with persistent storage such as:
+ * - PostgreSQL/MySQL database
+ * - Redis for caching and session storage
+ * - HubSpot custom objects for CRM-native storage
  */
 
 import { Router, Request, Response } from 'express';
@@ -9,7 +15,10 @@ import { RevenueLeak, LeakType, LeakSeverity } from '../../types';
 
 const router = Router();
 
-// In-memory leak storage (use database in production)
+/**
+ * In-memory leak storage for demonstration
+ * Replace with database in production to persist data across restarts
+ */
 const leakStore = new Map<string, RevenueLeak[]>();
 
 interface WorkflowActionRequest {

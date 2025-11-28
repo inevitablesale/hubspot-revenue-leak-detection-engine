@@ -1,6 +1,12 @@
 /**
  * Configuration API Routes
  * Endpoints for managing app configuration (replaces YAML config)
+ * 
+ * PRODUCTION NOTE: This implementation uses local file storage for demonstration.
+ * In production, replace with:
+ * - HubSpot custom objects for portal-specific configuration
+ * - Environment variables for sensitive credentials
+ * - Encrypted storage (e.g., AWS Secrets Manager, HashiCorp Vault) for API keys
  */
 
 import { Router, Request, Response } from 'express';
@@ -10,7 +16,10 @@ import { Client } from '@hubspot/api-client';
 
 const router = Router();
 
-// Configuration storage path (uses HubSpot custom object in production)
+/**
+ * Configuration storage path
+ * In production, this should use HubSpot custom objects or secure external storage
+ */
 const CONFIG_FILE = path.join(process.cwd(), '.leak-engine-config.json');
 
 interface AppConfig {
