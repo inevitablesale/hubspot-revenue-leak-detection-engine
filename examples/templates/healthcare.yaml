@@ -1,0 +1,191 @@
+# Healthcare Organization Configuration Template
+# HIPAA-compliant setup with patient data protection
+
+version: "1.0.0"
+
+hubspot:
+  clientId: your_client_id
+  clientSecret: your_client_secret
+  redirectUri: http://localhost:3000/oauth/callback
+  pipeline: Patient Pipeline
+
+modules:
+  # Longer engagement cycles in healthcare
+  emailInactivity:
+    enabled: true
+    inactivityDays: 60
+    minDealValue: 5000
+
+  # Higher accuracy for patient matching
+  duplicateDeals:
+    enabled: true
+    matchFields:
+      - patient_id
+      - mrn
+      - dealname
+    similarityThreshold: 0.95
+
+  forecast:
+    enabled: true
+    forecastPeriodDays: 180
+    confidenceLevel: 0.9
+
+  # Strict billing accuracy required
+  underbilling:
+    enabled: true
+    deviationThreshold: 0.05
+    minValue: 500
+
+  # Annual contract renewals
+  missedRenewals:
+    enabled: true
+    alertDaysBefore: 120
+    engagementThresholdDays: 60
+
+  # Cross-sell may not be appropriate
+  crossSell:
+    enabled: false
+    minCustomerValue: 25000
+    inactivityDays: 90
+
+  # Critical for patient care
+  csHandoff:
+    enabled: true
+    maxHandoffDelayDays: 1
+    minDealValue: 1000
+
+  lifecycle:
+    enabled: true
+    requiredStages:
+      - referral
+      - intake
+      - treatment
+      - follow_up
+      - discharged
+    allowedTransitions:
+      referral:
+        - intake
+      intake:
+        - treatment
+        - discharged
+      treatment:
+        - follow_up
+        - discharged
+      follow_up:
+        - treatment
+        - discharged
+      discharged:
+        - referral
+
+  billingGap:
+    enabled: true
+    maxGapDays: 90
+    tolerancePercent: 2
+
+integrations:
+  # On-premise may need hybrid mode
+  outlook:
+    enabled: true
+    syncContacts: false
+    logEmails: true
+    syncCalendar: true
+    hybridMode: true
+
+  # Gmail disabled for HIPAA
+  gmail:
+    enabled: false
+    logEmails: false
+    syncContacts: false
+
+  # Salesforce Health Cloud
+  salesforce:
+    enabled: true
+    syncContacts: true
+    syncDeals: true
+    syncCompanies: true
+
+dataQuality:
+  # Manual review for patient data
+  autoMergeDuplicates: false
+  mergeByEmail: false
+  mergeByDomain: false
+  fieldMappings:
+    - source: ehr
+      sourceField: MRN
+      targetField: mrn
+      transformations:
+        - encrypt
+    - source: ehr
+      sourceField: ReferralSource
+      targetField: referral_source
+  validationRules:
+    - field: mrn
+      rule: required
+      message: Medical Record Number required
+    - field: consent_obtained
+      rule: required
+      message: Patient consent must be documented
+
+# HIPAA Compliance Settings
+compliance:
+  mode: hipaa
+  encryptSensitiveFields: true
+  sensitiveFields:
+    - ssn
+    - social_security_number
+    - date_of_birth
+    - dob
+    - medical_record_number
+    - mrn
+    - health_plan_number
+    - diagnosis
+    - treatment
+    - medication
+    - patient_name
+    - patient_id
+    - insurance_id
+    - phone
+    - address
+    - email
+  auditLogging: true
+  dataRetentionDays: 2190  # 6 years for HIPAA
+  consentRequired: true
+  cookieBannerEnabled: false
+  rightToErasure: false
+  dataPortability: true
+
+thresholds:
+  criticalLeakValue: 100000
+  highLeakValue: 25000
+  mediumLeakValue: 5000
+  stalePipelineDays: 90
+  urgentRecoveryDays: 1
+
+reporting:
+  enabled: true
+  scheduledReports: true
+  reportFrequency: daily
+  dashboards:
+    - name: Patient Revenue
+      type: revenue_leakage
+      metrics:
+        - billed_services
+        - unbilled_services
+        - denials
+      refreshIntervalMinutes: 60
+    
+    - name: Referral Pipeline
+      type: forecast
+      metrics:
+        - referrals_received
+        - conversion_rate
+        - avg_case_value
+      refreshIntervalMinutes: 120
+    
+    - name: Compliance Status
+      type: compliance
+      metrics:
+        - audit_events
+        - consent_rate
+        - encryption_status
+      refreshIntervalMinutes: 60

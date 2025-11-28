@@ -4,10 +4,14 @@
   "description": "Installable HubSpot app + Breeze Agent that identifies hidden revenue leaks across the full lifecycle. Analyzes Deals, Jobs, Placements, Contracts, UTM sources, renewals, and invoices to detect underbilling, missed cross-sells, dropped handoffs, orphaned accounts, invalid stage transitions, delayed billing, and untriggered renewal opportunities.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "leak-engine": "./dist/cli/index.js"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
+    "cli": "ts-node src/cli/index.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",

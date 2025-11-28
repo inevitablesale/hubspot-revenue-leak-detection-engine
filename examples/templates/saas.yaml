@@ -1,0 +1,148 @@
+# SaaS Company Configuration Template
+# Optimized for subscription businesses with MRR tracking and churn detection
+
+version: "1.0.0"
+
+hubspot:
+  clientId: your_client_id
+  clientSecret: your_client_secret
+  redirectUri: http://localhost:3000/oauth/callback
+  pipeline: SaaS Sales Pipeline
+
+modules:
+  # More frequent engagement monitoring for SaaS
+  emailInactivity:
+    enabled: true
+    inactivityDays: 14
+    minDealValue: 500
+
+  duplicateDeals:
+    enabled: true
+    matchFields:
+      - dealname
+      - company
+      - email
+    similarityThreshold: 0.8
+
+  forecast:
+    enabled: true
+    forecastPeriodDays: 90
+    confidenceLevel: 0.95
+
+  underbilling:
+    enabled: true
+    deviationThreshold: 0.15
+    minValue: 100
+
+  # Longer lead time for subscription renewals
+  missedRenewals:
+    enabled: true
+    alertDaysBefore: 90
+    engagementThresholdDays: 14
+
+  crossSell:
+    enabled: true
+    minCustomerValue: 5000
+    inactivityDays: 60
+
+  # Faster handoff for SaaS onboarding
+  csHandoff:
+    enabled: true
+    maxHandoffDelayDays: 3
+    minDealValue: 2000
+
+  lifecycle:
+    enabled: true
+    requiredStages:
+      - trial
+      - subscriber
+      - customer
+      - evangelist
+    allowedTransitions:
+      trial:
+        - subscriber
+        - churned
+      subscriber:
+        - customer
+        - churned
+      customer:
+        - evangelist
+        - churned
+      evangelist:
+        - customer
+      churned:
+        - trial
+
+  # Monthly billing tolerance
+  billingGap:
+    enabled: true
+    maxGapDays: 35
+    tolerancePercent: 3
+
+integrations:
+  # Stripe is essential for SaaS
+  stripe:
+    enabled: true
+    syncPayments: true
+    syncSubscriptions: true
+    syncCustomers: true
+    attributeToDeals: true
+
+  gmail:
+    enabled: true
+    logEmails: true
+    syncContacts: true
+
+dataQuality:
+  autoMergeDuplicates: true
+  mergeByEmail: true
+  mergeByDomain: true
+  fieldMappings:
+    - source: stripe
+      sourceField: subscription_status
+      targetField: subscription_status
+    - source: stripe
+      sourceField: mrr
+      targetField: mrr
+      transformations:
+        - currency
+    - source: stripe
+      sourceField: plan_name
+      targetField: product_tier
+
+compliance:
+  mode: none
+  encryptSensitiveFields: false
+  auditLogging: false
+  dataRetentionDays: 365
+
+# Lower thresholds for SaaS model
+thresholds:
+  criticalLeakValue: 25000
+  highLeakValue: 5000
+  mediumLeakValue: 1000
+  stalePipelineDays: 60
+  urgentRecoveryDays: 7
+
+reporting:
+  enabled: true
+  scheduledReports: true
+  reportFrequency: weekly
+  dashboards:
+    - name: MRR Dashboard
+      type: revenue_leakage
+      metrics:
+        - mrr
+        - churn_rate
+        - expansion_mrr
+        - net_mrr
+      refreshIntervalMinutes: 30
+    
+    - name: Subscription Health
+      type: forecast
+      metrics:
+        - active_subscriptions
+        - trial_conversions
+        - upgrades
+        - downgrades
+      refreshIntervalMinutes: 60
