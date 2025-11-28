@@ -58,6 +58,18 @@ import { AgentOSConfig } from './types';
 // Export all types
 export * from './types';
 
+// Export Level 3 modules (only classes, not types to avoid conflicts)
+export { CodeAuthor, RuleAuthor, WorkflowAuthor, GovernanceAuthor } from './self-extension';
+export { BudgetLedger, AgentCredits, BiddingEngine, MarketMaker } from './economy';
+export { EventBus, EventNormalizer, ReactivePipelines, StreamingScheduler } from './streaming';
+export { ShortTermMemory, MidTermMemory, LongTermMemory, EpisodicMemory } from './memory';
+export { BillingAgent, CSAgent, PipelineAgent, ForecastAgent, RenewalAgent, RiskAgent, DataQualityAgent, AttributionAgent, IntentAgent } from './personas';
+export { PortalTwin, ScenarioTwin, StressTests, ChaosEngine } from './digital-twin';
+export { BehaviorProfiles, RepArchetypes, PredictionModel } from './human-modeling';
+export { FinalMode } from './autonomy';
+export { CrossPortalLearning, BenchmarkIndex, GlobalPatterns } from './global-brain';
+export { PluginLoader, PluginManifest, PluginSDK } from './plugins';
+
 // Export all modules
 export {
   IntelligenceEngine,

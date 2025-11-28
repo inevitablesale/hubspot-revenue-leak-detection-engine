@@ -77,6 +77,7 @@ export interface NodeConfig {
     condition: string;
   };
   splitType?: 'parallel' | 'conditional';
+  [key: string]: unknown;
 }
 
 export interface WorkflowEdge {

@@ -313,6 +313,9 @@ export class RevenueLeakDetectionEngine {
       stalled_cs_handoff: 0,
       invalid_lifecycle_path: 0,
       billing_gap: 0,
+      stale_pipeline: 0,
+      missed_handoff: 0,
+      data_quality: 0,
     };
 
     const bySeverity: Record<LeakSeverity, number> = {
