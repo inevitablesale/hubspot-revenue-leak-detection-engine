@@ -101,6 +101,10 @@ npm test -- --coverage
 ```
 ├── src/
 │   ├── auth/           # OAuth implementation
+│   ├── breeze/         # Breeze Agent memory and fix actions
+│   │   ├── agent-memory.ts
+│   │   ├── fix-actions.ts
+│   │   └── index.ts
 │   ├── engine/         # Detection engine modules
 │   │   ├── underbilling.ts
 │   │   ├── missed-renewals.ts
@@ -109,7 +113,28 @@ npm test -- --coverage
 │   │   ├── lifecycle-validator.ts
 │   │   ├── billing-gap.ts
 │   │   └── index.ts    # Main engine orchestrator
+│   ├── graph/          # Leak Graph Engine
+│   │   ├── leak-graph.ts
+│   │   └── index.ts
+│   ├── scoring/        # Scoring system
+│   │   ├── leak-scorer.ts
+│   │   └── index.ts
+│   ├── prevention/     # Leak prevention rules
+│   │   ├── prevention-rules.ts
+│   │   └── index.ts
+│   ├── reports/        # Revenue leakage reports
+│   │   ├── leakage-report.ts
+│   │   └── index.ts
+│   ├── workflows/      # Breeze workflows & trend tracking
+│   │   ├── breeze-workflows.ts
+│   │   ├── trend-tracker.ts
+│   │   ├── bookmarks.ts
+│   │   └── index.ts
 │   ├── crm/            # CRM card and property modules
+│   │   ├── card-builder.ts
+│   │   ├── interactive-card.ts
+│   │   ├── property-updates.ts
+│   │   └── index.ts
 │   ├── timeline/       # Timeline events
 │   ├── routes/         # API routes
 │   ├── types/          # TypeScript type definitions
@@ -179,6 +204,166 @@ npm run test:watch
 
 # Run tests with coverage report
 npm run test:coverage
+```
+
+## Advanced Features
+
+### 1. Leak Graph Engine
+
+Tracks relationships between revenue leaks and entities for root cause analysis and cascade detection.
+
+```typescript
+import { LeakGraphEngine } from './graph';
+
+const graph = new LeakGraphEngine();
+graph.buildFromLeaks(leaks);
+
+const analysis = graph.analyze();
+console.log('Root causes:', analysis.rootCauses);
+console.log('Cascade risks:', analysis.cascadeRisks);
+```
+
+### 2. Breeze Agent Memory & Context
+
+Stores conversation history and leak context for AI-powered interactions with the Breeze Agent.
+
+```typescript
+import { BreezeAgentMemory } from './breeze';
+
+const memory = new BreezeAgentMemory();
+const session = memory.createSession('portal-1', 'user-1');
+memory.addLeakContext(session.id, leak);
+
+const strategy = memory.getRecommendedStrategy('underbilling');
+const summary = memory.generateContextSummary(session.id);
+```
+
+### 3. Enhanced Scoring (Severity, Impact, Recoverability)
+
+Comprehensive scoring system for prioritizing leak resolution.
+
+```typescript
+import { LeakScorer } from './scoring';
+
+const scorer = new LeakScorer();
+const scores = scorer.batchScore(leaks);
+const ranked = scorer.rankLeaks(scores);
+
+const metrics = scorer.calculateAggregateMetrics(scores);
+console.log('Average priority:', metrics.averageComposite);
+```
+
+### 4. Breeze-Native Fix Actions
+
+AI-powered recovery actions that integrate with HubSpot Breeze.
+
+```typescript
+import { BreezeFixActions } from './breeze';
+
+const actions = new BreezeFixActions();
+const recommendation = await actions.getAIRecommendation(context);
+const result = await actions.executeAction('fix-underbilling', context);
+```
+
+### 5. Interactive CRM Card UI
+
+Enhanced CRM cards with real-time updates, score gauges, and interactive elements.
+
+```typescript
+import { InteractiveCRMCardBuilder } from './crm';
+
+const cardBuilder = new InteractiveCRMCardBuilder({
+  enableRealTimeUpdates: true,
+  showScores: true,
+  showTrends: true,
+});
+
+const card = cardBuilder.buildInteractiveCard(leaks, entityId, entityType, {
+  scores: scoresMap,
+  bookmarks: bookmarksMap,
+  trendData: { direction: 'down', change: -15 },
+});
+```
+
+### 6. Trend Tracking (Weekly Job)
+
+Track leak trends over time for predictive analysis.
+
+```typescript
+import { TrendTracker } from './workflows';
+
+const tracker = new TrendTracker();
+const analysis = tracker.analyzeTrends('portal-1', leaks);
+
+console.log('Overall trend:', analysis.overallTrend);
+console.log('Predictions:', analysis.predictions);
+console.log('Alerts:', analysis.alerts);
+```
+
+### 7. Leak Bookmarking
+
+Allow users to bookmark and organize leaks for follow-up.
+
+```typescript
+import { LeakBookmarkManager } from './workflows';
+
+const bookmarks = new LeakBookmarkManager();
+const bookmark = bookmarks.createBookmark(leak, userId, portalId, {
+  tags: ['urgent', 'enterprise'],
+  priority: 'high',
+});
+
+bookmarks.setReminder(bookmark.id, new Date('2024-12-01'));
+const due = bookmarks.getDueReminders(userId);
+```
+
+### 8. Leak Prevention Rules
+
+Proactive rules to prevent revenue leaks before they occur.
+
+```typescript
+import { LeakPreventionEngine } from './prevention';
+
+const prevention = new LeakPreventionEngine();
+const alerts = prevention.evaluateDeals(deals);
+
+const summary = prevention.getSummary();
+console.log('Active rules:', summary.activeRules);
+console.log('Prevented leaks:', summary.preventedLeaks);
+```
+
+### 9. Portal-Level Revenue Leakage Report
+
+Comprehensive reporting and dashboards for revenue leak analysis.
+
+```typescript
+import { RevenueLeakageReporter } from './reports';
+
+const reporter = new RevenueLeakageReporter();
+const report = reporter.generateReport(leaks, scores, {
+  portalId: 'portal-1',
+  period: { startDate, endDate, label: 'Q4 2024' },
+  includeResolved: true,
+});
+
+console.log('Health Score:', report.healthScore);
+console.log('Recommendations:', report.recommendations);
+const html = reporter.exportReport(report, 'html');
+```
+
+### 10. "Recover All Leaks" Breeze Workflow
+
+Batch process all detected leaks with appropriate recovery actions.
+
+```typescript
+import { BreezeWorkflowEngine } from './workflows';
+
+const workflows = new BreezeWorkflowEngine();
+const result = await workflows.executeRecoverAllLeaks(leaks, scores);
+
+console.log('Processed:', result.processed);
+console.log('Recovered revenue:', result.recoveredRevenue);
+console.log('Success rate:', (result.succeeded / result.totalLeaks) * 100);
 ```
 
 ## License
