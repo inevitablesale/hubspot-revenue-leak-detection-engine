@@ -8,6 +8,19 @@ import { generateId } from '../utils/helpers';
 import { RevenueLeak, LeakType } from '../types';
 
 // ============================================================
+// Drift Detection Configuration Constants
+// ============================================================
+
+/** Variance factor for metric simulation (10% of baseline) */
+const METRIC_VARIANCE_FACTOR = 0.1;
+
+/** Multiplier for random drift range (symmetric around 0) */
+const DRIFT_RANGE_MULTIPLIER = 2;
+
+/** Threshold for direction change detection (1% of baseline) */
+const DIRECTION_CHANGE_THRESHOLD = 0.01;
+
+// ============================================================
 // Drift Detection Types
 // ============================================================
 
@@ -592,8 +605,8 @@ export class DriftDetectionEngine {
    */
   private measureMetric(monitor: DriftMonitor): DriftMeasurement {
     // Simulate a measurement with some variance around baseline
-    const variance = monitor.baseline.value * 0.1;
-    const randomDrift = (Math.random() - 0.5) * variance * 2;
+    const variance = monitor.baseline.value * METRIC_VARIANCE_FACTOR;
+    const randomDrift = (Math.random() - 0.5) * variance * DRIFT_RANGE_MULTIPLIER;
     
     return {
       value: monitor.baseline.value + randomDrift,
@@ -612,8 +625,8 @@ export class DriftDetectionEngine {
     
     // Determine direction
     let direction: 'up' | 'down' | 'change';
-    if (absolute > baseline.value * 0.01) direction = 'up';
-    else if (absolute < -baseline.value * 0.01) direction = 'down';
+    if (absolute > baseline.value * DIRECTION_CHANGE_THRESHOLD) direction = 'up';
+    else if (absolute < -baseline.value * DIRECTION_CHANGE_THRESHOLD) direction = 'down';
     else direction = 'change';
 
     // Calculate significance (simplified)
