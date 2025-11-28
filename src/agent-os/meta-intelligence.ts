@@ -525,8 +525,9 @@ export class MetaIntelligenceEngine {
   private updateBenchmarksFromPerformance(perf: AgentPerformance): void {
     const detectionRate = this.benchmarks.get('detection-rate');
     if (detectionRate) {
+      const previousValue = detectionRate.currentValue;
       detectionRate.currentValue = perf.detectionAccuracy;
-      detectionRate.trend = perf.detectionAccuracy > detectionRate.currentValue ? 'improving' : 'stable';
+      detectionRate.trend = perf.detectionAccuracy > previousValue ? 'improving' : 'stable';
     }
 
     const recoveryRate = this.benchmarks.get('recovery-rate');

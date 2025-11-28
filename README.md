@@ -100,6 +100,18 @@ npm test -- --coverage
 
 ```
 ├── src/
+│   ├── agent-os/       # RevOps Agent OS modules
+│   │   ├── types.ts            # Agent OS type definitions
+│   │   ├── intelligence.ts     # AI-powered analysis and learning
+│   │   ├── orchestration.ts    # Capacity-aware workflow coordination
+│   │   ├── simulation.ts       # What-if scenario modeling
+│   │   ├── self-healing.ts     # Auto-recovery mechanisms
+│   │   ├── multi-system-validation.ts  # Cross-system data validation
+│   │   ├── financial-governance.ts     # Financial controls and audit
+│   │   ├── ecosystem-cross-signals.ts  # Multi-system signal correlation
+│   │   ├── meta-intelligence.ts        # Higher-order system insights
+│   │   ├── rule-evolution.ts           # Adaptive rule management
+│   │   └── index.ts            # Main Agent OS orchestrator
 │   ├── auth/           # OAuth implementation
 │   ├── breeze/         # Breeze Agent memory and fix actions
 │   │   ├── agent-memory.ts
@@ -141,6 +153,10 @@ npm test -- --coverage
 │   ├── utils/          # Utility functions
 │   └── index.ts        # Application entry point
 ├── tests/              # Test files
+│   ├── agent-os/       # Agent OS tests
+│   ├── engine/         # Detection engine tests
+│   ├── breeze/         # Breeze Agent tests
+│   └── ...
 ├── dist/               # Compiled output
 └── package.json
 ```
@@ -369,3 +385,405 @@ console.log('Success rate:', (result.succeeded / result.totalLeaks) * 100);
 ## License
 
 ISC
+
+---
+
+# RevOps Agent OS
+
+The RevOps Agent OS transforms the HubSpot Revenue Leak Detection Engine into an intelligent operating system for revenue operations. It provides advanced capabilities for intelligence, automation, orchestration, simulation, learning, explainability, self-healing, multi-system validation, financial governance, capacity-aware workflows, rule evolution, and ecosystem cross-signals.
+
+## Agent OS Modules
+
+### 1. Intelligence Engine
+
+AI-powered analysis, learning, and pattern recognition for revenue leak detection.
+
+```typescript
+import { IntelligenceEngine } from './agent-os';
+
+const intelligence = new IntelligenceEngine({
+  learningRate: 0.1,
+  minConfidenceThreshold: 0.6,
+  patternDetectionEnabled: true,
+  anomalyDetectionEnabled: true,
+});
+
+// Analyze leaks and generate insights
+const insights = intelligence.analyzeLeaks(leaks);
+console.log('Pattern insights:', insights.filter(i => i.type === 'pattern'));
+console.log('Anomaly insights:', insights.filter(i => i.type === 'anomaly'));
+console.log('Predictions:', insights.filter(i => i.type === 'prediction'));
+
+// Record feedback for learning
+intelligence.recordFeedback(insightId, 'accurate', userId, 'Good insight');
+
+// Match leaks against learned patterns
+const matches = intelligence.matchPatterns(leak);
+```
+
+### 2. Orchestration Engine
+
+Capacity-aware workflow coordination and execution.
+
+```typescript
+import { OrchestrationEngine } from './agent-os';
+
+const orchestration = new OrchestrationEngine({
+  maxConcurrentPlans: 5,
+  defaultTimeout: 300000,
+  capacityLimits: { api_calls: 100, concurrent_tasks: 10, memory: 512 },
+});
+
+// Create a recovery plan
+const plan = orchestration.createRecoveryPlan(leaks, {
+  prioritizeBy: 'revenue',
+  maxParallel: 3,
+  includeValidation: true,
+});
+
+// Execute the plan
+const result = await orchestration.executePlan(plan.id);
+console.log('Steps completed:', result.stepsCompleted);
+console.log('Status:', result.status);
+
+// Check capacity
+const capacity = orchestration.getCapacityStatus();
+console.log('API calls remaining:', capacity.apiCalls.limit - capacity.apiCalls.used);
+```
+
+### 3. Simulation Engine
+
+What-if scenario modeling and predictive analysis.
+
+```typescript
+import { SimulationEngine } from './agent-os';
+
+const simulation = new SimulationEngine({
+  defaultIterations: 1000,
+  maxSimulationsPerDay: 50,
+});
+
+// Run a Monte Carlo simulation
+const mcSimulation = simulation.createMonteCarloSimulation('Recovery Analysis', leaks, {
+  iterations: 1000,
+  confidenceLevel: 0.95,
+});
+const mcResult = await simulation.runSimulation(mcSimulation.id, leaks);
+console.log('Expected recovery:', mcResult.outcomes[0].simulatedValue);
+console.log('Confidence:', mcResult.confidence);
+
+// Run a what-if simulation
+const whatIfSimulation = simulation.createWhatIfSimulation('Rate Increase', leaks, {
+  name: 'Rate Increase',
+  description: 'What if we increase recovery rate by 10%?',
+  parameters: [{ name: 'recovery_rate', change: 0.1 }],
+});
+const whatIfResult = await simulation.runSimulation(whatIfSimulation.id, leaks);
+
+// Compare scenarios
+const comparison = simulation.compareScenarios([mcSimulation.id, whatIfSimulation.id]);
+console.log('Recommendation:', comparison.recommendation);
+```
+
+### 4. Self-Healing Engine
+
+Auto-recovery mechanisms and adaptive behavior.
+
+```typescript
+import { SelfHealingEngine } from './agent-os';
+
+const selfHealing = new SelfHealingEngine({
+  autoHealEnabled: true,
+  healthCheckIntervalMs: 60000,
+  maxAutoHealAttempts: 3,
+});
+
+// Run health checks
+const checks = await selfHealing.runHealthChecks();
+console.log('Overall health:', selfHealing.getSystemHealth().overall);
+
+// Get active issues
+const issues = selfHealing.getActiveIssues();
+for (const issue of issues) {
+  if (issue.autoHealable) {
+    const result = await selfHealing.heal(issue.id);
+    console.log('Healing result:', result.status);
+  }
+}
+
+// View healing statistics
+const stats = selfHealing.getHealingStats();
+console.log('Success rate:', stats.successRate);
+```
+
+### 5. Multi-System Validation
+
+Cross-system data validation and reconciliation.
+
+```typescript
+import { MultiSystemValidator } from './agent-os';
+
+const validator = new MultiSystemValidator({
+  tolerancePercent: 1,
+  strictMode: false,
+});
+
+// Register system connections
+validator.registerConnection({
+  id: 'hubspot',
+  name: 'HubSpot CRM',
+  type: 'crm',
+  status: 'connected',
+  lastSync: new Date(),
+  config: {},
+});
+
+// Validate data across systems
+const report = await validator.validateAcrossSystems([
+  { systemId: 'hubspot', entityType: 'deal', data: hubspotDeals },
+  { systemId: 'billing', entityType: 'invoice', data: billingInvoices },
+]);
+
+console.log('Discrepancies:', report.discrepancies.length);
+console.log('Recommendations:', report.recommendations);
+```
+
+### 6. Financial Governance
+
+Financial controls, audit trails, and reconciliation.
+
+```typescript
+import { FinancialGovernanceEngine } from './agent-os';
+
+const governance = new FinancialGovernanceEngine({
+  auditRetentionDays: 365,
+  approvalThresholds: { low: 1000, medium: 10000, high: 50000, critical: 100000 },
+  requireJustification: true,
+});
+
+// Evaluate controls
+const controls = governance.evaluateControls(
+  'execute_recovery',
+  'deal',
+  dealId,
+  amount,
+  userId
+);
+
+if (controls.requiresApproval) {
+  const request = governance.createApprovalRequest(
+    'action',
+    'deal',
+    dealId,
+    'execute_recovery',
+    userId,
+    'Recovering revenue leak',
+    amount
+  );
+}
+
+// Run compliance checks
+const compliance = governance.runComplianceChecks(leaks);
+console.log('SOX compliance:', compliance.find(c => c.checkType === 'sox')?.passed);
+
+// Get audit trail
+const audit = governance.getAuditTrail({ entityType: 'deal', entityId: dealId });
+```
+
+### 7. Ecosystem Cross-Signals
+
+Multi-system signal correlation and early warning detection.
+
+```typescript
+import { EcosystemCrossSignals } from './agent-os';
+
+const crossSignals = new EcosystemCrossSignals({
+  correlationThreshold: 0.6,
+  signalWindowHours: 168,
+  minSignalSources: 2,
+});
+
+// Ingest signals from different systems
+crossSignals.ingestSignal('support', 'ticket_volume', 150, 100);
+crossSignals.ingestSignal('product', 'daily_active_users', 800, 1000);
+crossSignals.ingestSignal('billing', 'payment_failure_rate', 0.08, 0.03);
+
+// Get active alerts
+const alerts = crossSignals.getActiveAlerts();
+for (const alert of alerts) {
+  console.log('Alert:', alert.title);
+  console.log('Actions:', alert.recommendedActions);
+}
+
+// Get early warnings
+const warnings = crossSignals.getEarlyWarnings();
+
+// Correlate signals
+const correlation = crossSignals.correlateSignals(
+  'support', 'ticket_volume',
+  'billing', 'churn_rate'
+);
+```
+
+### 8. Meta-Intelligence
+
+Higher-order insights about system performance and capabilities.
+
+```typescript
+import { MetaIntelligenceEngine } from './agent-os';
+
+const metaIntelligence = new MetaIntelligenceEngine({
+  reportingIntervalHours: 24,
+  benchmarkEnabled: true,
+  improvementSuggestionsEnabled: true,
+});
+
+// Analyze system performance
+const insights = metaIntelligence.analyzeSystem(leakResults, {
+  attempted: 100,
+  successful: 75,
+  revenue: 500000,
+});
+
+// Get capability assessment
+const capabilities = metaIntelligence.getCapabilities();
+console.log('Weak areas:', capabilities.filter(c => c.score < 50));
+
+// Identify improvement opportunities
+const opportunities = metaIntelligence.identifyOpportunities();
+console.log('Top priorities:', opportunities.slice(0, 3));
+
+// Generate executive summary
+const summary = metaIntelligence.generateExecutiveSummary();
+console.log('Overall score:', summary.overallScore);
+console.log('Maturity level:', summary.maturityLevel);
+console.log('Performance trend:', summary.performanceTrend);
+```
+
+### 9. Rule Evolution
+
+Adaptive rule management and automated rule optimization.
+
+```typescript
+import { RuleEvolutionEngine } from './agent-os';
+
+const ruleEvolution = new RuleEvolutionEngine({
+  autoEvolveEnabled: true,
+  mutationRate: 0.1,
+  testingPeriodDays: 14,
+  minSampleSize: 50,
+});
+
+// Get active rules
+const rules = ruleEvolution.getActiveRules();
+
+// Generate mutations for a rule
+const mutations = ruleEvolution.generateMutations(ruleId);
+
+// Apply a mutation and test
+const candidate = ruleEvolution.applyMutation(mutations[0].id);
+const test = ruleEvolution.startTest(ruleId, candidate.id);
+
+// Complete test and promote if successful
+ruleEvolution.recordTestResults(test.id, { accuracy: 0.85, precision: 0.82 });
+const completedTest = ruleEvolution.completeTest(test.id);
+if (completedTest.winner === 'candidate') {
+  const newRule = ruleEvolution.promoteCandidate(candidate.id);
+  console.log('Promoted rule:', newRule.id);
+}
+
+// Auto-evolve rules
+const evolution = ruleEvolution.autoEvolve();
+console.log('Evolved rules:', evolution.evolvedRules);
+```
+
+## Complete RevOps Agent OS
+
+The `RevOpsAgentOS` class brings all modules together into a unified operating system.
+
+```typescript
+import { RevOpsAgentOS } from './agent-os';
+
+const agentOS = new RevOpsAgentOS({
+  intelligence: { enabled: true, learningRate: 0.1 },
+  orchestration: { enabled: true, maxConcurrentPlans: 5 },
+  simulation: { enabled: true, defaultIterations: 1000 },
+  selfHealing: { enabled: true, autoHealEnabled: true },
+  validation: { enabled: true, tolerancePercent: 1 },
+  governance: { enabled: true, auditRetentionDays: 365 },
+  crossSignals: { enabled: true, correlationThreshold: 0.6 },
+  metaIntelligence: { enabled: true, benchmarkEnabled: true },
+  ruleEvolution: { enabled: true, autoEvolveEnabled: true },
+});
+
+// Process detection results
+const output = await agentOS.processDetectionResults(leakResults);
+console.log('Insights:', output.insights.length);
+console.log('Recovery plan:', output.recoveryPlan.id);
+
+// Execute recovery
+const recovery = await agentOS.executeRecovery(output.recoveryPlan.id);
+console.log('Recovery status:', recovery.result.status);
+
+// Run health checks
+const health = await agentOS.runHealthCheck();
+console.log('System health:', health.checks);
+
+// Generate dashboard
+const dashboard = agentOS.generateDashboard();
+console.log('Status:', dashboard.status);
+console.log('Metrics:', dashboard.metrics);
+console.log('Executive summary:', dashboard.executiveSummary);
+
+// Get module statistics
+const stats = agentOS.getModuleStats();
+console.log('Module stats:', stats);
+```
+
+## Architecture
+
+The RevOps Agent OS follows a modular architecture:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      RevOps Agent OS                             │
+├─────────────────────────────────────────────────────────────────┤
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │ Intelligence │  │ Orchestration│  │  Simulation  │          │
+│  │    Engine    │  │    Engine    │  │    Engine    │          │
+│  └──────────────┘  └──────────────┘  └──────────────┘          │
+│                                                                  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │ Self-Healing │  │Multi-System  │  │  Financial   │          │
+│  │    Engine    │  │  Validator   │  │  Governance  │          │
+│  └──────────────┘  └──────────────┘  └──────────────┘          │
+│                                                                  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │  Ecosystem   │  │    Meta-     │  │    Rule      │          │
+│  │Cross-Signals │  │ Intelligence │  │  Evolution   │          │
+│  └──────────────┘  └──────────────┘  └──────────────┘          │
+├─────────────────────────────────────────────────────────────────┤
+│                  Core Detection Engine                           │
+├─────────────────────────────────────────────────────────────────┤
+│                    HubSpot Integration                           │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## Key Capabilities
+
+| Capability | Module | Description |
+|------------|--------|-------------|
+| Intelligence | IntelligenceEngine | Pattern detection, anomaly detection, predictions |
+| Automation | OrchestrationEngine | Automated workflow execution |
+| Orchestration | OrchestrationEngine | Capacity-aware multi-step coordination |
+| Simulation | SimulationEngine | What-if analysis, Monte Carlo, scenarios |
+| Learning | IntelligenceEngine | Feedback-based improvement |
+| Explainability | MetaIntelligenceEngine | Transparent AI reasoning |
+| Self-Healing | SelfHealingEngine | Auto-recovery, health monitoring |
+| Multi-System Validation | MultiSystemValidator | Cross-system data integrity |
+| Financial Governance | FinancialGovernanceEngine | Audit trails, approvals, compliance |
+| Capacity-Aware Workflows | OrchestrationEngine | Resource-aware execution |
+| Rule Evolution | RuleEvolutionEngine | Adaptive rule optimization |
+| Ecosystem Cross-Signals | EcosystemCrossSignals | Multi-system correlation |
+| Meta-Intelligence | MetaIntelligenceEngine | System self-awareness |
+

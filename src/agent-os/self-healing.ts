@@ -22,6 +22,7 @@ export interface HealingResult {
   duration: number;
   rollbackPerformed: boolean;
   details: string[];
+  completedAt: Date;
 }
 
 export interface DataQualityCheck {
@@ -410,6 +411,7 @@ export class SelfHealingEngine {
         duration: 0,
         rollbackPerformed: false,
         details: ['No healing strategy available'],
+        completedAt: new Date(),
       };
     }
 
@@ -458,6 +460,7 @@ export class SelfHealingEngine {
         duration: Date.now() - startTime,
         rollbackPerformed,
         details,
+        completedAt: new Date(),
       };
 
       this.healingHistory.push(result);
@@ -474,6 +477,7 @@ export class SelfHealingEngine {
         duration: Date.now() - startTime,
         rollbackPerformed,
         details: [...details, `Error: ${error instanceof Error ? error.message : 'Unknown error'}`],
+        completedAt: new Date(),
       };
 
       this.healingHistory.push(result);
@@ -577,7 +581,7 @@ export class SelfHealingEngine {
     const activeIssues = this.getActiveIssues();
     const healingInProgress = activeIssues.filter(i => i.status === 'healing').length;
     const recentHealings = this.healingHistory.filter(h => 
-      Date.now() - h.duration < 3600000 // Last hour
+      Date.now() - h.completedAt.getTime() < 3600000 // Last hour
     ).length;
 
     let overall: 'healthy' | 'degraded' | 'unhealthy' = 'healthy';
