@@ -1,0 +1,15 @@
+{
+  "type": "crm-card",
+  "data": {
+    "title": "Revenue Leak Detection",
+    "location": "crm.record.tab",
+    "module": {
+      "file": "ui-extensions/cards/TicketLeakCard.tsx"
+    },
+    "objectTypes": [
+      {
+        "name": "ticket"
+      }
+    ]
+  }
+}

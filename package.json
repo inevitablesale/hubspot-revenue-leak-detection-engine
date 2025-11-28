@@ -1,7 +1,7 @@
 {
   "name": "hubspot-revenue-leak-detection-engine",
-  "version": "1.0.0",
-  "description": "Installable HubSpot app + Breeze Agent that identifies hidden revenue leaks across the full lifecycle. Analyzes Deals, Jobs, Placements, Contracts, UTM sources, renewals, and invoices to detect underbilling, missed cross-sells, dropped handoffs, orphaned accounts, invalid stage transitions, delayed billing, and untriggered renewal opportunities.",
+  "version": "2.0.0",
+  "description": "HubSpot Native App with UI Extensions for identifying and recovering hidden revenue leaks across the full customer lifecycle. Includes CRM cards, embedded dashboard, workflow actions, and integrations with Stripe, QuickBooks, Outlook, Gmail, Shopify, and Salesforce.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
@@ -20,12 +20,17 @@
   },
   "keywords": [
     "hubspot",
+    "hubspot-app",
     "revenue",
     "leak-detection",
     "crm",
+    "ui-extensions",
+    "workflow-actions",
     "breeze-agent",
     "sales",
-    "billing"
+    "billing",
+    "stripe",
+    "quickbooks"
   ],
   "author": "",
   "license": "ISC",

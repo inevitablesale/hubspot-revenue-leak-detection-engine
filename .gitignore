@@ -27,3 +27,7 @@ Thumbs.db
 # Temporary files
 tmp/
 temp/
+
+# App configuration (contains sensitive data)
+.leak-engine-config.json
+leak-engine.config.yaml
