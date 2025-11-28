@@ -1,0 +1,196 @@
+# Revenue Leak Detection Engine Configuration
+# Copy this file to leak-engine.config.yaml and customize for your needs
+
+version: "1.0.0"
+
+# HubSpot Configuration
+hubspot:
+  clientId: your_client_id_here
+  clientSecret: your_client_secret_here
+  redirectUri: http://localhost:3000/oauth/callback
+  pipeline: Sales Pipeline
+  # portalId: optional_portal_id
+
+# Detection Modules
+# Enable/disable individual leak detection agents
+modules:
+  emailInactivity:
+    enabled: true
+    inactivityDays: 30
+    minDealValue: 1000
+  
+  duplicateDeals:
+    enabled: true
+    matchFields:
+      - dealname
+      - amount
+      - company
+    similarityThreshold: 0.85
+  
+  forecast:
+    enabled: true
+    forecastPeriodDays: 90
+    confidenceLevel: 0.95
+  
+  underbilling:
+    enabled: true
+    deviationThreshold: 0.2
+    minValue: 500
+  
+  missedRenewals:
+    enabled: true
+    alertDaysBefore: 60
+    engagementThresholdDays: 30
+  
+  crossSell:
+    enabled: true
+    minCustomerValue: 10000
+    inactivityDays: 90
+  
+  csHandoff:
+    enabled: true
+    maxHandoffDelayDays: 7
+    minDealValue: 5000
+  
+  lifecycle:
+    enabled: true
+    requiredStages:
+      - subscriber
+      - lead
+      - opportunity
+      - customer
+    allowedTransitions:
+      subscriber:
+        - lead
+      lead:
+        - opportunity
+        - subscriber
+      opportunity:
+        - customer
+        - lead
+      customer:
+        - evangelist
+  
+  billingGap:
+    enabled: true
+    maxGapDays: 45
+    tolerancePercent: 5
+
+# Integrations
+# Configure connections to external systems
+integrations:
+  outlook:
+    enabled: false
+    syncContacts: true
+    logEmails: true
+    syncCalendar: false
+    hybridMode: false
+    # tenantId: your_azure_tenant_id
+    # clientId: your_azure_client_id
+    # clientSecret: your_azure_client_secret
+
+  quickbooks:
+    enabled: false
+    syncContacts: true
+    syncInvoices: true
+    syncPayments: true
+    environment: production
+    # companyId: your_quickbooks_company_id
+    # clientId: your_intuit_client_id
+    # clientSecret: your_intuit_client_secret
+    fieldMappings: {}
+
+  stripe:
+    enabled: false
+    syncPayments: true
+    syncSubscriptions: true
+    syncCustomers: true
+    attributeToDeals: true
+    # apiKey: sk_live_your_stripe_key
+    # webhookSecret: whsec_your_webhook_secret
+
+  shopify:
+    enabled: false
+    syncCustomers: true
+    syncProducts: true
+    syncOrders: true
+    syncAbandonedCarts: true
+    addTrackingCode: false
+    # shopDomain: your-store.myshopify.com
+    # accessToken: your_shopify_access_token
+    fieldMappings:
+      sku: hs_sku
+      variant_price: price
+
+  gmail:
+    enabled: false
+    logEmails: true
+    syncContacts: true
+    # serviceAccountPath: ./service-account.json
+    # impersonateUser: user@domain.com
+
+  salesforce:
+    enabled: false
+    syncContacts: true
+    syncDeals: true
+    syncCompanies: true
+    # instanceUrl: https://your-instance.salesforce.com
+    # clientId: your_salesforce_client_id
+    # clientSecret: your_salesforce_client_secret
+    # username: your_salesforce_username
+
+# Data Quality Settings
+dataQuality:
+  autoMergeDuplicates: false
+  mergeByEmail: true
+  mergeByDomain: true
+  fieldMappings: []
+  validationRules:
+    - field: email
+      rule: email
+      message: Invalid email format
+
+# Compliance Settings
+# Enable for regulated industries
+compliance:
+  mode: none  # Options: none, hipaa, gdpr
+  encryptSensitiveFields: false
+  sensitiveFields: []
+  auditLogging: false
+  dataRetentionDays: 365
+  consentRequired: false
+  cookieBannerEnabled: false
+  rightToErasure: false
+  dataPortability: false
+
+# Leak Severity Thresholds
+thresholds:
+  criticalLeakValue: 50000
+  highLeakValue: 10000
+  mediumLeakValue: 1000
+  stalePipelineDays: 90
+  urgentRecoveryDays: 7
+
+# Reporting Configuration
+reporting:
+  enabled: true
+  scheduledReports: false
+  reportFrequency: weekly
+  emailRecipients: []
+  dashboards:
+    - name: Revenue Leakage Report
+      type: revenue_leakage
+      metrics:
+        - total_leaks
+        - potential_revenue
+        - recovered_revenue
+        - by_type
+      refreshIntervalMinutes: 60
+    
+    - name: Deal Forecast
+      type: forecast
+      metrics:
+        - pipeline_value
+        - expected_close
+        - confidence
+      refreshIntervalMinutes: 60
