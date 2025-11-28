@@ -221,8 +221,72 @@ router.get('/types', (req: Request, res: Response) => {
       { id: 'stalled_cs_handoff', name: 'CS Handoff Issues', description: 'Detects stalled customer success handoffs' },
       { id: 'invalid_lifecycle_path', name: 'Lifecycle Validation', description: 'Validates lifecycle stage transitions' },
       { id: 'billing_gap', name: 'Billing Gaps', description: 'Identifies gaps in billing and collection' },
+      { id: 'stale_pipeline', name: 'Stale Pipeline', description: 'Identifies deals stuck in pipeline' },
+      { id: 'missed_handoff', name: 'Missed Handoff', description: 'Detects missed handoff opportunities' },
+      { id: 'data_quality', name: 'Data Quality', description: 'Identifies data quality issues' },
     ],
   });
+});
+
+/**
+ * POST /detect/run
+ * Run detection scan (for UI Extensions)
+ */
+router.post('/run', async (req: Request, res: Response) => {
+  try {
+    const { entityType, entityId, fullScan } = req.body;
+    const engine = new RevenueLeakDetectionEngine(req.body.config || {});
+
+    // Create mock data based on request
+    const mockData: any = {};
+
+    if (fullScan) {
+      // Full scan - return sample results
+      mockData.deals = [
+        {
+          id: 'sample-1',
+          properties: { dealname: 'Sample Deal', amount: '50000', dealstage: 'closedwon' },
+        },
+      ];
+      mockData.averageDealValues = new Map([['default', 60000]]);
+    } else if (entityType && entityId) {
+      switch (entityType) {
+        case 'deal':
+          mockData.deals = [{
+            id: entityId,
+            properties: { dealname: 'Deal', amount: '50000', dealstage: 'closedwon' },
+          }];
+          mockData.averageDealValues = new Map([['default', 60000]]);
+          break;
+        case 'contact':
+          mockData.contacts = [{
+            id: entityId,
+            properties: { firstname: 'Sample', lastname: 'Contact', lifecyclestage: 'customer' },
+          }];
+          break;
+        case 'company':
+          mockData.companies = [{
+            id: entityId,
+            properties: { name: 'Sample Company', annualrevenue: '1000000' },
+          }];
+          break;
+      }
+    }
+
+    const result = await engine.detectLeaks(mockData);
+
+    res.json({
+      success: true,
+      scanId: `scan-${Date.now()}`,
+      status: 'completed',
+      leaksFound: result.leaks.length,
+      potentialRevenue: result.summary.totalPotentialRevenue,
+      result,
+    });
+  } catch (error) {
+    console.error('Run detection error:', error);
+    res.status(500).json({ error: 'Failed to run detection scan' });
+  }
 });
 
 export default router;
