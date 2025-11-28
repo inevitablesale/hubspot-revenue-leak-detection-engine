@@ -147,6 +147,9 @@ export class LeakScorer {
       stalled_cs_handoff: 4,
       untriggered_crosssell: 2,
       invalid_lifecycle_path: 0,
+      stale_pipeline: 3,
+      missed_handoff: 5,
+      data_quality: 1,
     };
     score += typeModifiers[leak.type] || 0;
 
@@ -224,6 +227,9 @@ export class LeakScorer {
       invalid_lifecycle_path: 70, // Data fix
       untriggered_crosssell: 50, // Needs sales effort
       missed_renewal: 40, // May have lost customer
+      stale_pipeline: 60, // Pipeline cleanup
+      missed_handoff: 65, // Process fix
+      data_quality: 85, // Data correction
     };
     score = typeRecoverability[leak.type] || score;
 

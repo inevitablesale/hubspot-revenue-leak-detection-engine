@@ -123,7 +123,10 @@ export type LeakType =
   | 'untriggered_crosssell'
   | 'stalled_cs_handoff'
   | 'invalid_lifecycle_path'
-  | 'billing_gap';
+  | 'billing_gap'
+  | 'stale_pipeline'
+  | 'missed_handoff'
+  | 'data_quality';
 
 export type LeakSeverity = 'low' | 'medium' | 'high' | 'critical';
 

@@ -676,6 +676,9 @@ export class InteractiveCRMCardBuilder {
       stalled_cs_handoff: 'Stalled CS Handoff',
       invalid_lifecycle_path: 'Invalid Lifecycle',
       billing_gap: 'Billing Gap',
+      stale_pipeline: 'Stale Pipeline',
+      missed_handoff: 'Missed Handoff',
+      data_quality: 'Data Quality Issue',
     };
     return labels[type];
   }
