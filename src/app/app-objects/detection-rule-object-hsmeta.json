@@ -1,0 +1,180 @@
+{
+  "name": "detection_rule",
+  "labels": {
+    "singular": "Detection Rule",
+    "plural": "Detection Rules"
+  },
+  "primaryDisplayProperty": "rule_name",
+  "searchableProperties": ["rule_name", "rule_type", "target_entity"],
+  "requiredProperties": ["rule_name", "rule_type", "conditions_json"],
+  "properties": [
+    {
+      "name": "rule_name",
+      "label": "Rule Name",
+      "type": "string",
+      "fieldType": "text",
+      "description": "Human-readable name for this detection rule"
+    },
+    {
+      "name": "rule_description",
+      "label": "Description",
+      "type": "string",
+      "fieldType": "textarea",
+      "description": "Detailed description of what this rule detects"
+    },
+    {
+      "name": "rule_type",
+      "label": "Leak Type",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Category of revenue leak this rule detects",
+      "options": [
+        { "label": "Underbilling", "value": "underbilling" },
+        { "label": "Missed Renewal", "value": "missed_renewal" },
+        { "label": "Cross-sell Opportunity", "value": "untriggered_crosssell" },
+        { "label": "Stalled CS Handoff", "value": "stalled_cs_handoff" },
+        { "label": "Invalid Lifecycle Path", "value": "invalid_lifecycle_path" },
+        { "label": "Billing Gap", "value": "billing_gap" },
+        { "label": "Stale Pipeline", "value": "stale_pipeline" },
+        { "label": "Data Quality", "value": "data_quality" },
+        { "label": "Custom", "value": "custom" }
+      ]
+    },
+    {
+      "name": "target_entity",
+      "label": "Target Entity",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Type of CRM object this rule evaluates",
+      "options": [
+        { "label": "Deal", "value": "deal" },
+        { "label": "Contact", "value": "contact" },
+        { "label": "Company", "value": "company" },
+        { "label": "Ticket", "value": "ticket" }
+      ]
+    },
+    {
+      "name": "conditions_json",
+      "label": "Conditions JSON",
+      "type": "string",
+      "fieldType": "textarea",
+      "description": "JSON array of condition objects defining when this rule triggers"
+    },
+    {
+      "name": "severity",
+      "label": "Default Severity",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Default severity when this rule triggers",
+      "options": [
+        { "label": "Low", "value": "low" },
+        { "label": "Medium", "value": "medium" },
+        { "label": "High", "value": "high" },
+        { "label": "Critical", "value": "critical" }
+      ]
+    },
+    {
+      "name": "is_enabled",
+      "label": "Enabled",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Whether this rule is active",
+      "options": [
+        { "label": "Yes", "value": "true" },
+        { "label": "No", "value": "false" }
+      ]
+    },
+    {
+      "name": "suggested_action",
+      "label": "Suggested Action",
+      "type": "string",
+      "fieldType": "textarea",
+      "description": "Recommended action when this rule triggers"
+    },
+    {
+      "name": "auto_create_task",
+      "label": "Auto Create Task",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Automatically create a task when this rule triggers",
+      "options": [
+        { "label": "Yes", "value": "true" },
+        { "label": "No", "value": "false" }
+      ]
+    },
+    {
+      "name": "task_owner_type",
+      "label": "Task Owner Type",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Who should be assigned tasks created by this rule",
+      "options": [
+        { "label": "Record Owner", "value": "record_owner" },
+        { "label": "Specific User", "value": "specific_user" },
+        { "label": "CS Owner", "value": "cs_owner" },
+        { "label": "Sales Manager", "value": "sales_manager" }
+      ]
+    },
+    {
+      "name": "task_owner_id",
+      "label": "Task Owner ID",
+      "type": "string",
+      "fieldType": "text",
+      "description": "Specific user ID for task assignment (when task_owner_type is specific_user)"
+    },
+    {
+      "name": "notify_slack",
+      "label": "Notify Slack",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Send Slack notification when this rule triggers",
+      "options": [
+        { "label": "Yes", "value": "true" },
+        { "label": "No", "value": "false" }
+      ]
+    },
+    {
+      "name": "notify_teams",
+      "label": "Notify Teams",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Send Microsoft Teams notification when this rule triggers",
+      "options": [
+        { "label": "Yes", "value": "true" },
+        { "label": "No", "value": "false" }
+      ]
+    },
+    {
+      "name": "trigger_count",
+      "label": "Trigger Count",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Number of times this rule has triggered"
+    },
+    {
+      "name": "last_triggered",
+      "label": "Last Triggered",
+      "type": "datetime",
+      "fieldType": "date",
+      "description": "When this rule last triggered"
+    },
+    {
+      "name": "created_by",
+      "label": "Created By",
+      "type": "string",
+      "fieldType": "text",
+      "description": "User who created this rule"
+    },
+    {
+      "name": "is_system_rule",
+      "label": "System Rule",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Whether this is a built-in system rule",
+      "options": [
+        { "label": "Yes", "value": "true" },
+        { "label": "No", "value": "false" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+{
+  "name": "leak_detection_config",
+  "labels": {
+    "singular": "Leak Detection Config",
+    "plural": "Leak Detection Configs"
+  },
+  "primaryDisplayProperty": "config_name",
+  "searchableProperties": ["config_name"],
+  "requiredProperties": ["config_name"],
+  "properties": [
+    {
+      "name": "config_name",
+      "label": "Configuration Name",
+      "type": "string",
+      "fieldType": "text",
+      "description": "Name of this configuration profile"
+    },
+    {
+      "name": "industry_template",
+      "label": "Industry Template",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Industry-specific preset configuration",
+      "options": [
+        { "label": "SaaS / Tech", "value": "saas" },
+        { "label": "Agency / Services", "value": "agency" },
+        { "label": "Healthcare", "value": "healthcare" },
+        { "label": "Consulting", "value": "consulting" },
+        { "label": "Retail / eCommerce", "value": "retail" },
+        { "label": "Custom", "value": "custom" }
+      ]
+    },
+    {
+      "name": "compliance_mode",
+      "label": "Compliance Mode",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Data compliance mode",
+      "options": [
+        { "label": "None", "value": "none" },
+        { "label": "HIPAA", "value": "hipaa" },
+        { "label": "GDPR", "value": "gdpr" },
+        { "label": "SOC2", "value": "soc2" }
+      ]
+    },
+    {
+      "name": "scan_frequency",
+      "label": "Scan Frequency",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "How often to run automated scans",
+      "options": [
+        { "label": "Manual Only", "value": "manual" },
+        { "label": "Hourly", "value": "hourly" },
+        { "label": "Daily", "value": "daily" },
+        { "label": "Weekly", "value": "weekly" }
+      ]
+    },
+    {
+      "name": "auto_recover_enabled",
+      "label": "Auto Recovery Enabled",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Enable automatic recovery actions",
+      "options": [
+        { "label": "Yes", "value": "true" },
+        { "label": "No", "value": "false" }
+      ]
+    },
+    {
+      "name": "notify_on_critical",
+      "label": "Notify on Critical",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Send notifications for critical leaks",
+      "options": [
+        { "label": "Yes", "value": "true" },
+        { "label": "No", "value": "false" }
+      ]
+    },
+    {
+      "name": "underbilling_enabled",
+      "label": "Underbilling Detection",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Enable underbilling detection module",
+      "options": [
+        { "label": "Enabled", "value": "true" },
+        { "label": "Disabled", "value": "false" }
+      ]
+    },
+    {
+      "name": "underbilling_threshold",
+      "label": "Underbilling Threshold",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Percentage threshold for underbilling alerts"
+    },
+    {
+      "name": "missed_renewals_enabled",
+      "label": "Missed Renewals Detection",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Enable missed renewals detection module",
+      "options": [
+        { "label": "Enabled", "value": "true" },
+        { "label": "Disabled", "value": "false" }
+      ]
+    },
+    {
+      "name": "renewal_alert_days",
+      "label": "Renewal Alert Days",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Days before renewal to trigger alerts"
+    },
+    {
+      "name": "crosssell_enabled",
+      "label": "Cross-sell Detection",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Enable cross-sell opportunity detection",
+      "options": [
+        { "label": "Enabled", "value": "true" },
+        { "label": "Disabled", "value": "false" }
+      ]
+    },
+    {
+      "name": "cs_handoff_enabled",
+      "label": "CS Handoff Detection",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Enable CS handoff detection module",
+      "options": [
+        { "label": "Enabled", "value": "true" },
+        { "label": "Disabled", "value": "false" }
+      ]
+    },
+    {
+      "name": "lifecycle_enabled",
+      "label": "Lifecycle Detection",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Enable lifecycle validation module",
+      "options": [
+        { "label": "Enabled", "value": "true" },
+        { "label": "Disabled", "value": "false" }
+      ]
+    },
+    {
+      "name": "billing_gap_enabled",
+      "label": "Billing Gap Detection",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Enable billing gap detection module",
+      "options": [
+        { "label": "Enabled", "value": "true" },
+        { "label": "Disabled", "value": "false" }
+      ]
+    },
+    {
+      "name": "audit_logging_enabled",
+      "label": "Audit Logging",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Enable comprehensive audit logging",
+      "options": [
+        { "label": "Enabled", "value": "true" },
+        { "label": "Disabled", "value": "false" }
+      ]
+    },
+    {
+      "name": "data_retention_days",
+      "label": "Data Retention Days",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Number of days to retain leak data"
+    },
+    {
+      "name": "stripe_connected",
+      "label": "Stripe Connected",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Stripe integration status",
+      "options": [
+        { "label": "Connected", "value": "true" },
+        { "label": "Not Connected", "value": "false" }
+      ]
+    },
+    {
+      "name": "quickbooks_connected",
+      "label": "QuickBooks Connected",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "QuickBooks integration status",
+      "options": [
+        { "label": "Connected", "value": "true" },
+        { "label": "Not Connected", "value": "false" }
+      ]
+    },
+    {
+      "name": "last_scan_timestamp",
+      "label": "Last Scan",
+      "type": "datetime",
+      "fieldType": "date",
+      "description": "When the last detection scan was run"
+    }
+  ]
+}

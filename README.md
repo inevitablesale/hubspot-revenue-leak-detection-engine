@@ -26,9 +26,33 @@ This app is built as a **fully native HubSpot app** using the 2025.2 platform ve
 
 ### Platform Requirements
 
-- HubSpot CLI v2025.2 or later
-- Node.js 18+
+- HubSpot CLI v7.6+ (for 2025.2 platform)
+- Node.js 20+ (required by 2025.2 platform)
 - HubSpot Professional or Enterprise subscription
+
+### Project Structure (2025.2 Platform)
+
+```
+hsproject.json                    # Project configuration (platformVersion: "2025.2")
+src/app/
+├── app-hsmeta.json              # App configuration (scopes, extensions, webhooks)
+└── app-objects/
+    ├── revenue-leak-object-hsmeta.json
+    ├── leak-detection-config-object-hsmeta.json
+    ├── detection-rule-object-hsmeta.json
+    ├── escalation-rule-object-hsmeta.json
+    └── portal-benchmark-object-hsmeta.json
+hubspot/
+├── events/                      # App timeline events
+├── workflow-actions/            # Custom workflow actions
+└── serverless/                  # Serverless functions
+ui-extensions/
+├── cards/                       # CRM card extensions
+├── modals/                      # Settings panels
+└── pages/                       # App pages
+```
+
+> **Note:** App Objects are in controlled beta. You must request approval from HubSpot to use app-defined objects.
 
 ## 🤖 Breeze Agent Integration
 
@@ -244,7 +268,7 @@ Timeline events are logged for:
 4. **Install in HubSpot:**
    - Go to HubSpot > Settings > Integrations > Private Apps
    - Click "Create a private app"
-   - Import the `app.json` configuration
+   - Import the `src/app/app-hsmeta.json` configuration
    - Configure OAuth scopes and webhook endpoints
 5. **Complete the In-App Setup Wizard** that appears after installation
 
