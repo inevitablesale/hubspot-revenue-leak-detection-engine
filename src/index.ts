@@ -25,6 +25,9 @@ import webhooksRoutes from './api/routes/webhooks';
 import workflowsRoutes from './api/routes/workflows';
 import breezeRoutes from './api/routes/breeze';
 
+// Version constant - synchronized with package.json
+const APP_VERSION = process.env.npm_package_version || require('../package.json').version;
+
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
@@ -48,7 +51,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.get('/health', (req: Request, res: Response) => {
   res.json({
     status: 'healthy',
-    version: process.env.npm_package_version || '2.0.0',
+    version: APP_VERSION,
     timestamp: new Date().toISOString(),
     hubspotNative: true,
     breezeEnabled: true,
@@ -75,7 +78,7 @@ app.use('/api/v1/breeze', breezeRoutes);
 app.get('/api/v1', (req: Request, res: Response) => {
   res.json({
     name: 'HubSpot Revenue Leak Detection Engine',
-    version: '2.0.0',
+    version: APP_VERSION,
     description: 'HubSpot Native App for identifying hidden revenue leaks across the full customer lifecycle',
     appType: 'HubSpot Private App with UI Extensions and Breeze Agent Support',
     platformVersion: '2025.2',

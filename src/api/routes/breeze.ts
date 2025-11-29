@@ -18,8 +18,10 @@ router.post('/recommend', async (req: Request, res: Response) => {
   try {
     const { objectId, objectType, leakId, includeAlternatives = true } = req.body;
 
-    // Create mock leak context for demonstration
-    // In production, fetch from HubSpot custom objects
+    // PRODUCTION TODO: Replace mock data with HubSpot API calls
+    // - Fetch leak from custom object: hubspotClient.crm.objects.basicApi.getById('revenue_leak', leakId)
+    // - Fetch customer history from associated contacts/companies
+    // - Query similar resolutions from historical leak data
     const mockLeak: RevenueLeak = {
       id: leakId || `leak_${Date.now()}`,
       type: req.body.leakType || 'underbilling',
