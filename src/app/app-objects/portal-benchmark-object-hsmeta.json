@@ -1,0 +1,163 @@
+{
+  "name": "portal_benchmark",
+  "labels": {
+    "singular": "Portal Benchmark",
+    "plural": "Portal Benchmarks"
+  },
+  "primaryDisplayProperty": "benchmark_name",
+  "searchableProperties": ["benchmark_name", "metric_type", "industry"],
+  "requiredProperties": ["benchmark_name", "metric_type", "metric_value"],
+  "properties": [
+    {
+      "name": "benchmark_name",
+      "label": "Benchmark Name",
+      "type": "string",
+      "fieldType": "text",
+      "description": "Human-readable name for this benchmark"
+    },
+    {
+      "name": "metric_type",
+      "label": "Metric Type",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Type of metric being benchmarked",
+      "options": [
+        { "label": "Leak Rate", "value": "leak_rate" },
+        { "label": "Recovery Rate", "value": "recovery_rate" },
+        { "label": "Average Resolution Time", "value": "avg_resolution_time" },
+        { "label": "Revenue at Risk %", "value": "revenue_at_risk_pct" },
+        { "label": "Leak Distribution by Type", "value": "leak_distribution" },
+        { "label": "Prevention Effectiveness", "value": "prevention_effectiveness" },
+        { "label": "Automation Coverage", "value": "automation_coverage" }
+      ]
+    },
+    {
+      "name": "metric_value",
+      "label": "Your Value",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Your portal's value for this metric"
+    },
+    {
+      "name": "industry",
+      "label": "Industry",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Industry for comparison",
+      "options": [
+        { "label": "SaaS / Tech", "value": "saas" },
+        { "label": "Agency / Services", "value": "agency" },
+        { "label": "Healthcare", "value": "healthcare" },
+        { "label": "Consulting", "value": "consulting" },
+        { "label": "Retail / eCommerce", "value": "retail" },
+        { "label": "All Industries", "value": "all" }
+      ]
+    },
+    {
+      "name": "industry_average",
+      "label": "Industry Average",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Industry average for this metric"
+    },
+    {
+      "name": "industry_median",
+      "label": "Industry Median",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Industry median for this metric"
+    },
+    {
+      "name": "industry_25th_percentile",
+      "label": "25th Percentile",
+      "type": "number",
+      "fieldType": "number",
+      "description": "25th percentile value for this metric"
+    },
+    {
+      "name": "industry_75th_percentile",
+      "label": "75th Percentile",
+      "type": "number",
+      "fieldType": "number",
+      "description": "75th percentile value for this metric"
+    },
+    {
+      "name": "percentile_rank",
+      "label": "Your Percentile Rank",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Your percentile rank compared to industry"
+    },
+    {
+      "name": "trend_direction",
+      "label": "Trend Direction",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Direction of change for this metric",
+      "options": [
+        { "label": "Improving", "value": "improving" },
+        { "label": "Stable", "value": "stable" },
+        { "label": "Declining", "value": "declining" }
+      ]
+    },
+    {
+      "name": "trend_percentage",
+      "label": "Trend Percentage",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Percentage change over the period"
+    },
+    {
+      "name": "comparison_period",
+      "label": "Comparison Period",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Time period for comparison",
+      "options": [
+        { "label": "Last 7 Days", "value": "7d" },
+        { "label": "Last 30 Days", "value": "30d" },
+        { "label": "Last 90 Days", "value": "90d" },
+        { "label": "Last Year", "value": "1y" }
+      ]
+    },
+    {
+      "name": "sample_size",
+      "label": "Sample Size",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Number of portals in the benchmark comparison"
+    },
+    {
+      "name": "insights_json",
+      "label": "Insights",
+      "type": "string",
+      "fieldType": "textarea",
+      "description": "JSON array of insight messages for this benchmark"
+    },
+    {
+      "name": "recommendations_json",
+      "label": "Recommendations",
+      "type": "string",
+      "fieldType": "textarea",
+      "description": "JSON array of recommendations based on benchmark"
+    },
+    {
+      "name": "last_updated",
+      "label": "Last Updated",
+      "type": "datetime",
+      "fieldType": "date",
+      "description": "When this benchmark was last calculated"
+    },
+    {
+      "name": "is_opt_in",
+      "label": "Opted Into Benchmarks",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Whether this portal has opted into anonymous benchmarking",
+      "options": [
+        { "label": "Yes", "value": "true" },
+        { "label": "No", "value": "false" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "name": "escalation_rule",
+  "labels": {
+    "singular": "Escalation Rule",
+    "plural": "Escalation Rules"
+  },
+  "primaryDisplayProperty": "rule_name",
+  "searchableProperties": ["rule_name", "leak_type", "escalation_level"],
+  "requiredProperties": ["rule_name", "trigger_condition", "escalation_action"],
+  "properties": [
+    {
+      "name": "rule_name",
+      "label": "Rule Name",
+      "type": "string",
+      "fieldType": "text",
+      "description": "Human-readable name for this escalation rule"
+    },
+    {
+      "name": "rule_description",
+      "label": "Description",
+      "type": "string",
+      "fieldType": "textarea",
+      "description": "Detailed description of this escalation rule"
+    },
+    {
+      "name": "leak_type",
+      "label": "Leak Type Filter",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Which leak type this rule applies to (or all)",
+      "options": [
+        { "label": "All Leak Types", "value": "all" },
+        { "label": "Underbilling", "value": "underbilling" },
+        { "label": "Missed Renewal", "value": "missed_renewal" },
+        { "label": "Cross-sell Opportunity", "value": "untriggered_crosssell" },
+        { "label": "Stalled CS Handoff", "value": "stalled_cs_handoff" },
+        { "label": "Billing Gap", "value": "billing_gap" },
+        { "label": "Stale Pipeline", "value": "stale_pipeline" }
+      ]
+    },
+    {
+      "name": "min_severity",
+      "label": "Minimum Severity",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Minimum severity level for this rule to apply",
+      "options": [
+        { "label": "Low", "value": "low" },
+        { "label": "Medium", "value": "medium" },
+        { "label": "High", "value": "high" },
+        { "label": "Critical", "value": "critical" }
+      ]
+    },
+    {
+      "name": "trigger_condition",
+      "label": "Trigger Condition",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "When to trigger escalation",
+      "options": [
+        { "label": "After X Days Unresolved", "value": "days_unresolved" },
+        { "label": "Revenue Threshold Exceeded", "value": "revenue_threshold" },
+        { "label": "Multiple Leaks on Same Entity", "value": "multiple_leaks" },
+        { "label": "Task Overdue", "value": "task_overdue" },
+        { "label": "Manual Trigger", "value": "manual" }
+      ]
+    },
+    {
+      "name": "days_threshold",
+      "label": "Days Threshold",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Number of days before escalation (for days_unresolved condition)"
+    },
+    {
+      "name": "revenue_threshold",
+      "label": "Revenue Threshold",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Revenue amount in cents to trigger escalation"
+    },
+    {
+      "name": "escalation_level",
+      "label": "Escalation Level",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Level of escalation",
+      "options": [
+        { "label": "Level 1 - Team Lead", "value": "level_1" },
+        { "label": "Level 2 - Manager", "value": "level_2" },
+        { "label": "Level 3 - Director", "value": "level_3" },
+        { "label": "Level 4 - Executive", "value": "level_4" }
+      ]
+    },
+    {
+      "name": "escalation_action",
+      "label": "Escalation Action",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Action to take when escalating",
+      "options": [
+        { "label": "Create Task", "value": "create_task" },
+        { "label": "Send Email", "value": "send_email" },
+        { "label": "Slack Notification", "value": "slack_notify" },
+        { "label": "Teams Notification", "value": "teams_notify" },
+        { "label": "Reassign Owner", "value": "reassign_owner" },
+        { "label": "Trigger Workflow", "value": "trigger_workflow" },
+        { "label": "Multiple Actions", "value": "multiple" }
+      ]
+    },
+    {
+      "name": "escalation_actions_json",
+      "label": "Actions Configuration",
+      "type": "string",
+      "fieldType": "textarea",
+      "description": "JSON configuration for escalation actions"
+    },
+    {
+      "name": "escalate_to_user_id",
+      "label": "Escalate To User ID",
+      "type": "string",
+      "fieldType": "text",
+      "description": "Specific user ID to escalate to"
+    },
+    {
+      "name": "escalate_to_team",
+      "label": "Escalate To Team",
+      "type": "string",
+      "fieldType": "text",
+      "description": "Team to escalate to"
+    },
+    {
+      "name": "workflow_id",
+      "label": "Workflow ID",
+      "type": "string",
+      "fieldType": "text",
+      "description": "HubSpot workflow ID to trigger"
+    },
+    {
+      "name": "notification_message",
+      "label": "Notification Message",
+      "type": "string",
+      "fieldType": "textarea",
+      "description": "Custom message for notifications"
+    },
+    {
+      "name": "is_enabled",
+      "label": "Enabled",
+      "type": "enumeration",
+      "fieldType": "booleancheckbox",
+      "description": "Whether this escalation rule is active",
+      "options": [
+        { "label": "Yes", "value": "true" },
+        { "label": "No", "value": "false" }
+      ]
+    },
+    {
+      "name": "priority",
+      "label": "Priority",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Priority order for rule evaluation (lower = higher priority)"
+    },
+    {
+      "name": "trigger_count",
+      "label": "Trigger Count",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Number of times this rule has triggered"
+    },
+    {
+      "name": "last_triggered",
+      "label": "Last Triggered",
+      "type": "datetime",
+      "fieldType": "date",
+      "description": "When this rule last triggered"
+    },
+    {
+      "name": "next_escalation_rule_id",
+      "label": "Next Escalation Rule ID",
+      "type": "string",
+      "fieldType": "text",
+      "description": "ID of the next escalation rule in the chain"
+    }
+  ]
+}
