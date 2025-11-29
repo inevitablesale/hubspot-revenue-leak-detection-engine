@@ -429,10 +429,14 @@ export class NaturalLanguageQueryService {
     }));
 
     const totalTopRevenue = top.reduce((s, l) => s + l.potentialRevenue, 0);
+    const totalAllRevenue = context.leaks.reduce((s, l) => s + l.potentialRevenue, 0);
+    const percentageOfTotal = totalAllRevenue > 0 
+      ? Math.round(totalTopRevenue / totalAllRevenue * 100) 
+      : 0;
 
     return {
       answer: `Here are the top ${top.length} revenue leaks by value. Together they represent ` +
-              `${this.formatCurrency(totalTopRevenue)} or ${Math.round(totalTopRevenue / context.leaks.reduce((s, l) => s + l.potentialRevenue, 0) * 100)}% ` +
+              `${this.formatCurrency(totalTopRevenue)} or ${percentageOfTotal}% ` +
               `of your total revenue at risk.`,
       dataPoints
     };

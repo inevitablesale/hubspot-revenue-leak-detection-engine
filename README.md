@@ -44,6 +44,144 @@ The app includes **Breeze Agent Tools** that enable AI-powered automation:
 
 > **Note:** Agent tools require a publicly accessible endpoint. The workflow actions are configured with `supportedClients: ["WORKFLOWS", "AGENTS"]` to enable both manual and AI-driven automation.
 
+## 🚀 Advanced Features
+
+### 1. Configurable Detection Rule Engine (No-Code)
+
+Create custom detection rules without code through the Rule Engine API:
+
+```bash
+# Create a custom rule
+POST /api/v1/rules
+{
+  "name": "High-Value Deal Without Activity",
+  "targetEntity": "deal",
+  "conditions": [
+    { "field": "amount", "operator": "greater_than", "value": 50000 },
+    { "field": "notes_last_updated", "operator": "days_since", "value": 14 }
+  ],
+  "severity": "high",
+  "autoCreateTask": true,
+  "notifySlack": true
+}
+```
+
+**Features:**
+- Visual rule builder UI (in App Settings)
+- System rules with customizable thresholds
+- Rule testing against sample data
+- Import/export rules as JSON
+- 12+ condition operators (equals, greater_than, days_since, is_empty, etc.)
+
+### 2. Cross-Portal Intelligence Layer
+
+Compare your leak metrics against industry benchmarks:
+
+```bash
+# Compare your metrics to industry averages
+POST /api/v1/benchmarks/compare
+{
+  "industry": "saas",
+  "metrics": {
+    "leakRate": 3.5,
+    "recoveryRate": 65,
+    "avgResolutionTime": 48
+  }
+}
+```
+
+**Features:**
+- Benchmarks for SaaS, Agency, Healthcare, Consulting, Retail industries
+- Percentile rankings against peers
+- Trend analysis (improving/stable/declining)
+- Anonymous opt-in data sharing
+- AI-generated insights and recommendations
+
+### 3. Natural Language UI for Executives
+
+Ask questions about your leak data in plain English:
+
+```bash
+# Ask anything about your leaks
+POST /api/v1/nl-query
+{
+  "query": "How much ARR is stuck in renewal leaks this month?"
+}
+
+# Response:
+{
+  "answer": "There is $125,000 in revenue at risk in renewal leaks. This comes from 8 active revenue leaks...",
+  "confidence": 85,
+  "dataPoints": [...],
+  "suggestedFollowUps": ["What are the top 5 biggest leaks?", ...]
+}
+```
+
+**Example Questions:**
+- "How much revenue is at risk?"
+- "What types of leaks do we have?"
+- "Give me an executive summary"
+- "What should I prioritize first?"
+- "How does this compare to last month?"
+
+### 4. Slack/Teams Integration
+
+Send leak alerts to relevant teams with fix-action buttons:
+
+```bash
+# Configure Slack
+POST /api/v1/notifications/slack/configure
+{
+  "webhookUrl": "https://hooks.slack.com/services/...",
+  "defaultChannel": "#revenue-alerts",
+  "botName": "Revenue Leak Bot"
+}
+
+# Create a notification channel
+POST /api/v1/notifications/channels
+{
+  "name": "Critical Alerts",
+  "type": "slack",
+  "target": "#critical-revenue",
+  "severities": ["critical", "high"]
+}
+```
+
+**Features:**
+- Rich message formatting with severity indicators
+- Action buttons (Resolve, Create Task, View Details, Dismiss)
+- Channel-based routing by leak type and severity
+- Batch notifications for multiple leaks
+- Support for both Slack and Microsoft Teams
+
+### 5. Auto-Create Tasks & Escalation Chains
+
+Automatically create tasks and escalate unresolved leaks:
+
+```bash
+# Create an escalation rule
+POST /api/v1/escalations
+{
+  "name": "Escalate Critical to Manager After 3 Days",
+  "minSeverity": "critical",
+  "triggerCondition": "days_unresolved",
+  "daysThreshold": 3,
+  "escalationLevel": "level_2",
+  "escalationAction": "multiple",
+  "escalationActionsConfig": [
+    { "type": "create_task", "config": { "assignTo": "manager", "priority": "high" } },
+    { "type": "slack_notify", "config": { "channel": "#management-alerts" } }
+  ]
+}
+```
+
+**Features:**
+- Multi-level escalation chains (Team Lead → Manager → Director → Executive)
+- Multiple trigger conditions (days unresolved, revenue threshold, task overdue)
+- Automatic task creation with configurable owners
+- Email, Slack, and Teams notifications
+- Pending escalation visibility for proactive management
+
 ## 📦 HubSpot App Objects
 
 The app stores all data natively in HubSpot using custom App Objects:
@@ -61,6 +199,28 @@ Stores app configuration:
 - Module enable/disable flags
 - Compliance mode settings
 - Integration connection status
+
+### Detection Rule Object
+Stores custom detection rules:
+- Rule name, description, and type
+- Target entity (deal, contact, company)
+- Conditions (JSON array)
+- Task and notification settings
+- Trigger statistics
+
+### Escalation Rule Object
+Stores escalation chain rules:
+- Trigger conditions and thresholds
+- Escalation levels (1-4)
+- Action configurations
+- Chain linking to next escalation
+
+### Portal Benchmark Object
+Stores benchmark comparisons:
+- Industry and company size
+- Metric values and percentiles
+- Trend data
+- Recommendations
 
 ## 📅 App Events (Timeline)
 

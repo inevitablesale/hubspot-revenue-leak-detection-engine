@@ -380,16 +380,19 @@ export class CrossPortalIntelligenceService {
    */
   private calculatePercentileRank(value: number, benchmark: StatisticalSummary, lowerIsBetter: boolean): number {
     // Simple percentile estimation using quartiles
+    // Guard against division by zero
+    const safeDivide = (num: number, den: number): number => den === 0 ? 0 : num / den;
+    
     if (lowerIsBetter) {
-      if (value <= benchmark.percentile25) return 75 + (benchmark.percentile25 - value) / benchmark.percentile25 * 25;
-      if (value <= benchmark.median) return 50 + (benchmark.median - value) / (benchmark.median - benchmark.percentile25) * 25;
-      if (value <= benchmark.percentile75) return 25 + (benchmark.percentile75 - value) / (benchmark.percentile75 - benchmark.median) * 25;
-      return Math.max(0, 25 - (value - benchmark.percentile75) / benchmark.percentile75 * 25);
+      if (value <= benchmark.percentile25) return 75 + safeDivide(benchmark.percentile25 - value, benchmark.percentile25) * 25;
+      if (value <= benchmark.median) return 50 + safeDivide(benchmark.median - value, benchmark.median - benchmark.percentile25) * 25;
+      if (value <= benchmark.percentile75) return 25 + safeDivide(benchmark.percentile75 - value, benchmark.percentile75 - benchmark.median) * 25;
+      return Math.max(0, 25 - safeDivide(value - benchmark.percentile75, benchmark.percentile75) * 25);
     } else {
-      if (value >= benchmark.percentile75) return 75 + (value - benchmark.percentile75) / benchmark.percentile75 * 25;
-      if (value >= benchmark.median) return 50 + (value - benchmark.median) / (benchmark.percentile75 - benchmark.median) * 25;
-      if (value >= benchmark.percentile25) return 25 + (value - benchmark.percentile25) / (benchmark.median - benchmark.percentile25) * 25;
-      return Math.max(0, (value / benchmark.percentile25) * 25);
+      if (value >= benchmark.percentile75) return 75 + safeDivide(value - benchmark.percentile75, benchmark.percentile75) * 25;
+      if (value >= benchmark.median) return 50 + safeDivide(value - benchmark.median, benchmark.percentile75 - benchmark.median) * 25;
+      if (value >= benchmark.percentile25) return 25 + safeDivide(value - benchmark.percentile25, benchmark.median - benchmark.percentile25) * 25;
+      return Math.max(0, safeDivide(value, benchmark.percentile25) * 25);
     }
   }
 
