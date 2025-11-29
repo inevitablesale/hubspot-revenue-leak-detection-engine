@@ -22,11 +22,11 @@ A self-operating RevOps platform that identifies and recovers hidden revenue lea
 
 This app is built as a **fully native HubSpot app** using the 2025.2 platform version, leveraging:
 
-- **App Objects** - Native CRM storage for leak data (no external database needed) — *Beta: [Request Access](https://developers.hubspot.com/beta-programs/app-objects)*
-- **App Events** - Timeline events for audit trails — [Documentation](https://developers.hubspot.com/docs/api/crm/timeline)
-- **UI Extensions** - React-based CRM cards, dashboard, and settings — [Documentation](https://developers.hubspot.com/docs/platform/ui-extensions-overview)
-- **Workflow Actions** - Custom actions with Breeze Agent support — [Documentation](https://developers.hubspot.com/docs/platform/custom-workflow-actions)
-- **Serverless Functions** - Backend logic running on HubSpot's infrastructure — [Documentation](https://developers.hubspot.com/docs/platform/serverless-functions)
+- **App Objects** — Native CRM storage for leak data (no external database needed). *Beta: [Request Access](https://developers.hubspot.com/beta-programs/app-objects)*
+- **App Events** — Timeline events for audit trails. [Documentation](https://developers.hubspot.com/docs/api/crm/timeline)
+- **UI Extensions** — React-based CRM cards, dashboard, and settings. [Documentation](https://developers.hubspot.com/docs/platform/ui-extensions-overview)
+- **Workflow Actions** — Custom actions with Breeze Agent support. [Documentation](https://developers.hubspot.com/docs/platform/custom-workflow-actions)
+- **Serverless Functions** — Backend logic running on HubSpot's infrastructure. [Documentation](https://developers.hubspot.com/docs/platform/serverless-functions)
 
 ### Platform Requirements
 
@@ -75,7 +75,7 @@ The app includes **Breeze Agent Tools** that enable AI-powered automation. See [
 | **Log Leak Event** | TAKE_ACTION | Add timeline entries for auditing |
 | **Get AI Recommendation** | FETCH_DATA | Get AI-powered resolution suggestions |
 
-> **Note:** Agent tools require a publicly accessible endpoint. The workflow actions are configured with `supportedClients: ["WORKFLOWS", "AGENTS"]` to enable both manual and AI-driven automation. Direct calls to HubSpot serverless functions are not supported for AI agents.
+> **Note:** Agent tools require a publicly accessible endpoint. The workflow actions are configured with `supportedClients: ["WORKFLOWS", "AGENTS"]` to enable both manual and AI-driven automation.
 
 ## 🚀 Advanced Features
 
@@ -215,9 +215,9 @@ POST /api/v1/escalations
 - Email, Slack, and Teams notifications
 - Pending escalation visibility for proactive management
 
-## 📦 HubSpot App Objects *(Beta — HubSpot Enterprise Required)*
+## 📦 HubSpot App Objects
 
-> ⚠️ **App Objects require HubSpot approval.** [Request access here](https://developers.hubspot.com/beta-programs/app-objects).
+> ⚠️ **Beta Feature — HubSpot Enterprise Required.** App Objects require HubSpot approval. [Request access here](https://developers.hubspot.com/beta-programs/app-objects).
 
 The app stores all data natively in HubSpot using custom App Objects:
 
@@ -291,7 +291,7 @@ hs project upload
 hs project deploy
 ```
 
-> **Note:** Serverless functions are automatically built and hosted by HubSpot when deployed via CLI. Functions must be kept under [HubSpot's resource limits](https://developers.hubspot.com/docs/platform/serverless-functions#limits).
+> **Note:** Serverless functions are automatically built and hosted by HubSpot when deployed via CLI. See [HubSpot's resource limits](https://developers.hubspot.com/docs/platform/serverless-functions#limits) for function constraints.
 
 ### In-App Onboarding Wizard
 
@@ -558,7 +558,7 @@ hs project deploy
 hs project dev
 ```
 
-> **Note:** Serverless functions are automatically built and hosted by HubSpot when deployed via CLI. Functions must adhere to [HubSpot's resource limits](https://developers.hubspot.com/docs/platform/serverless-functions#limits).
+> **Note:** When using `hs project dev`, changes are watched and synced automatically for local development.
 
 ### External API & Server Development
 
