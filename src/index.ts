@@ -25,6 +25,13 @@ import webhooksRoutes from './api/routes/webhooks';
 import workflowsRoutes from './api/routes/workflows';
 import breezeRoutes from './api/routes/breeze';
 
+// Import improvement opportunity routes
+import rulesRoutes from './api/routes/rules';
+import escalationsRoutes from './api/routes/escalations';
+import nlQueryRoutes from './api/routes/nl-query';
+import benchmarksRoutes from './api/routes/benchmarks';
+import notificationsRoutes from './api/routes/notifications';
+
 // Version constant - synchronized with package.json
 const APP_VERSION = process.env.npm_package_version || require('../package.json').version;
 
@@ -73,6 +80,13 @@ app.use('/api/v1/integrations', integrationsRoutes);
 app.use('/api/webhooks', webhooksRoutes);
 app.use('/api/v1/workflows', workflowsRoutes);
 app.use('/api/v1/breeze', breezeRoutes);
+
+// API routes - Improvement Opportunities
+app.use('/api/v1/rules', rulesRoutes);
+app.use('/api/v1/escalations', escalationsRoutes);
+app.use('/api/v1/nl-query', nlQueryRoutes);
+app.use('/api/v1/benchmarks', benchmarksRoutes);
+app.use('/api/v1/notifications', notificationsRoutes);
 
 // API documentation endpoint
 app.get('/api/v1', (req: Request, res: Response) => {
@@ -158,6 +172,53 @@ app.get('/api/v1', (req: Request, res: Response) => {
         'POST /api/webhooks/scheduled-scan': 'Handle scheduled scan',
         'POST /api/webhooks/integration-sync': 'Handle integration sync',
       },
+      rules: {
+        'GET /api/v1/rules': 'List all detection rules',
+        'GET /api/v1/rules/:ruleId': 'Get rule details',
+        'POST /api/v1/rules': 'Create a custom detection rule',
+        'PUT /api/v1/rules/:ruleId': 'Update a rule',
+        'DELETE /api/v1/rules/:ruleId': 'Delete a custom rule',
+        'POST /api/v1/rules/validate': 'Validate a rule definition',
+        'POST /api/v1/rules/test': 'Test a rule against sample data',
+        'POST /api/v1/rules/evaluate': 'Evaluate rules against entities',
+        'GET /api/v1/rules/templates/list': 'Get rule templates',
+      },
+      escalations: {
+        'GET /api/v1/escalations': 'List escalation rules',
+        'GET /api/v1/escalations/:ruleId': 'Get escalation rule details',
+        'POST /api/v1/escalations': 'Create escalation rule',
+        'PUT /api/v1/escalations/:ruleId': 'Update escalation rule',
+        'DELETE /api/v1/escalations/:ruleId': 'Delete escalation rule',
+        'POST /api/v1/escalations/evaluate': 'Evaluate leaks for escalation',
+        'GET /api/v1/escalations/chain/:leakType': 'Get escalation chain',
+        'GET /api/v1/escalations/pending/list': 'Get pending escalations',
+      },
+      nlQuery: {
+        'POST /api/v1/nl-query': 'Process natural language query',
+        'GET /api/v1/nl-query/suggestions': 'Get suggested questions',
+        'GET /api/v1/nl-query/history': 'Get query history',
+        'POST /api/v1/nl-query/summarize': 'Generate executive summary',
+        'POST /api/v1/nl-query/analyze': 'Analyze specific aspect',
+      },
+      benchmarks: {
+        'GET /api/v1/benchmarks': 'Get available benchmarks',
+        'GET /api/v1/benchmarks/:industry': 'Get industry benchmark',
+        'POST /api/v1/benchmarks/compare': 'Compare portal to benchmarks',
+        'GET /api/v1/benchmarks/opt-in/status': 'Get opt-in status',
+        'POST /api/v1/benchmarks/opt-in/configure': 'Configure opt-in',
+        'GET /api/v1/benchmarks/insights': 'Get benchmark insights',
+      },
+      notifications: {
+        'GET /api/v1/notifications/config': 'Get notification config',
+        'PUT /api/v1/notifications/config': 'Update notification config',
+        'POST /api/v1/notifications/slack/configure': 'Configure Slack',
+        'POST /api/v1/notifications/teams/configure': 'Configure Teams',
+        'POST /api/v1/notifications/test/:platform': 'Test connection',
+        'GET /api/v1/notifications/channels': 'List channels',
+        'POST /api/v1/notifications/channels': 'Add channel',
+        'POST /api/v1/notifications/send': 'Send notification',
+        'POST /api/v1/notifications/send-batch': 'Send batch notification',
+      },
     },
     leakTypes: [
       'underbilling',
@@ -177,7 +238,7 @@ app.get('/api/v1', (req: Request, res: Response) => {
       settings: ['Leak Detection Settings'],
     },
     hubspotNative: {
-      appObjects: ['Revenue Leak', 'Leak Detection Config'],
+      appObjects: ['Revenue Leak', 'Leak Detection Config', 'Detection Rule', 'Escalation Rule', 'Portal Benchmark'],
       appEvents: ['Leak Detected', 'Leak Resolved', 'Scan Completed'],
       workflowActions: [
         'Run Leak Detection (Agent-enabled)',
@@ -187,6 +248,13 @@ app.get('/api/v1', (req: Request, res: Response) => {
         'Get AI Recommendation (Agent-enabled)'
       ],
       breezeAgentSupport: true,
+    },
+    improvementOpportunities: {
+      configurableRuleEngine: 'Create custom detection rules without code',
+      crossPortalIntelligence: 'Compare against industry benchmarks',
+      naturalLanguageUI: 'Ask anything about leak data',
+      slackTeamsIntegration: 'Send alerts with fix-action buttons',
+      escalationChains: 'Auto-create tasks and escalate unresolved leaks',
     },
   });
 });
