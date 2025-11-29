@@ -1,4 +1,5 @@
 {
   "name": "revenue-leak-detection-engine",
-  "srcDir": "."
+  "srcDir": ".",
+  "platformVersion": "2025.2"
 }

@@ -23,6 +23,7 @@ import exportRoutes from './api/routes/export';
 import integrationsRoutes from './api/routes/integrations';
 import webhooksRoutes from './api/routes/webhooks';
 import workflowsRoutes from './api/routes/workflows';
+import breezeRoutes from './api/routes/breeze';
 
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
@@ -47,8 +48,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.get('/health', (req: Request, res: Response) => {
   res.json({
     status: 'healthy',
-    version: process.env.npm_package_version || '1.0.0',
+    version: process.env.npm_package_version || '2.0.0',
     timestamp: new Date().toISOString(),
+    hubspotNative: true,
+    breezeEnabled: true,
   });
 });
 
@@ -66,14 +69,16 @@ app.use('/api/v1/export', exportRoutes);
 app.use('/api/v1/integrations', integrationsRoutes);
 app.use('/api/webhooks', webhooksRoutes);
 app.use('/api/v1/workflows', workflowsRoutes);
+app.use('/api/v1/breeze', breezeRoutes);
 
 // API documentation endpoint
 app.get('/api/v1', (req: Request, res: Response) => {
   res.json({
     name: 'HubSpot Revenue Leak Detection Engine',
-    version: '1.0.0',
+    version: '2.0.0',
     description: 'HubSpot Native App for identifying hidden revenue leaks across the full customer lifecycle',
-    appType: 'HubSpot Private App with UI Extensions',
+    appType: 'HubSpot Private App with UI Extensions and Breeze Agent Support',
+    platformVersion: '2025.2',
     endpoints: {
       oauth: {
         'GET /oauth/authorize': 'Initiate OAuth flow',
@@ -132,6 +137,12 @@ app.get('/api/v1', (req: Request, res: Response) => {
         'POST /api/v1/workflows/check-status': 'Check leak status',
         'GET /api/v1/workflows/actions': 'List available workflow actions',
       },
+      breeze: {
+        'POST /api/v1/breeze/recommend': 'Get AI recommendation for leak resolution',
+        'POST /api/v1/breeze/execute': 'Execute Breeze action for a leak',
+        'GET /api/v1/breeze/actions': 'List available Breeze actions',
+        'GET /api/v1/breeze/actions/:leakType': 'Get recommended action for leak type',
+      },
       export: {
         'GET /api/v1/export/leaks': 'Export leaks data',
         'GET /api/v1/export/dashboard': 'Export dashboard data',
@@ -159,7 +170,20 @@ app.get('/api/v1', (req: Request, res: Response) => {
     uiExtensions: {
       crmCards: ['Deal Leak Card', 'Contact Leak Card', 'Company Leak Card', 'Ticket Leak Card'],
       modals: ['Onboarding Wizard', 'Settings Panel'],
-      pages: ['Dashboard Page'],
+      pages: ['Dashboard Page (App Home)'],
+      settings: ['Leak Detection Settings'],
+    },
+    hubspotNative: {
+      appObjects: ['Revenue Leak', 'Leak Detection Config'],
+      appEvents: ['Leak Detected', 'Leak Resolved', 'Scan Completed'],
+      workflowActions: [
+        'Run Leak Detection (Agent-enabled)',
+        'Execute Recovery (Agent-enabled)',
+        'Check Leak Status (Agent-enabled)',
+        'Log Leak Event (Agent-enabled)',
+        'Get AI Recommendation (Agent-enabled)'
+      ],
+      breezeAgentSupport: true,
     },
   });
 });
@@ -187,6 +211,7 @@ if (require.main === module) {
     console.log(`🚀 Revenue Leak Detection Engine running on port ${PORT}`);
     console.log(`📍 Health check: http://localhost:${PORT}/health`);
     console.log(`📖 API docs: http://localhost:${PORT}/api/v1`);
+    console.log(`🤖 Breeze Agent Tools enabled`);
   });
 }
 

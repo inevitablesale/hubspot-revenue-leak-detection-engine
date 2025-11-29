@@ -1,0 +1,166 @@
+{
+  "name": "revenue_leak",
+  "labels": {
+    "singular": "Revenue Leak",
+    "plural": "Revenue Leaks"
+  },
+  "primaryDisplayProperty": "leak_name",
+  "searchableProperties": ["leak_name", "leak_type", "severity", "affected_entity_id"],
+  "requiredProperties": ["leak_name", "leak_type", "severity", "potential_revenue"],
+  "properties": [
+    {
+      "name": "leak_name",
+      "label": "Leak Name",
+      "type": "string",
+      "fieldType": "text",
+      "description": "Name or identifier for this revenue leak"
+    },
+    {
+      "name": "leak_type",
+      "label": "Leak Type",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "The category of revenue leak",
+      "options": [
+        { "label": "Underbilling", "value": "underbilling" },
+        { "label": "Missed Renewal", "value": "missed_renewal" },
+        { "label": "Cross-sell Opportunity", "value": "untriggered_crosssell" },
+        { "label": "Stalled CS Handoff", "value": "stalled_cs_handoff" },
+        { "label": "Invalid Lifecycle Path", "value": "invalid_lifecycle_path" },
+        { "label": "Billing Gap", "value": "billing_gap" },
+        { "label": "Stale Pipeline", "value": "stale_pipeline" },
+        { "label": "Missed Handoff", "value": "missed_handoff" },
+        { "label": "Data Quality", "value": "data_quality" }
+      ]
+    },
+    {
+      "name": "severity",
+      "label": "Severity",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Severity level of the leak",
+      "options": [
+        { "label": "Low", "value": "low" },
+        { "label": "Medium", "value": "medium" },
+        { "label": "High", "value": "high" },
+        { "label": "Critical", "value": "critical" }
+      ]
+    },
+    {
+      "name": "potential_revenue",
+      "label": "Potential Revenue",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Estimated revenue at risk in cents"
+    },
+    {
+      "name": "urgency_score",
+      "label": "Urgency Score",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Urgency score from 0-100"
+    },
+    {
+      "name": "description",
+      "label": "Description",
+      "type": "string",
+      "fieldType": "textarea",
+      "description": "Detailed description of the revenue leak"
+    },
+    {
+      "name": "recommendation",
+      "label": "Recommendation",
+      "type": "string",
+      "fieldType": "textarea",
+      "description": "Recommended action to resolve this leak"
+    },
+    {
+      "name": "recovery_status",
+      "label": "Recovery Status",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Current status of recovery efforts",
+      "options": [
+        { "label": "Pending", "value": "pending" },
+        { "label": "In Progress", "value": "in_progress" },
+        { "label": "Resolved", "value": "resolved" },
+        { "label": "Dismissed", "value": "dismissed" }
+      ]
+    },
+    {
+      "name": "affected_entity_type",
+      "label": "Affected Entity Type",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "Type of CRM object affected",
+      "options": [
+        { "label": "Deal", "value": "deal" },
+        { "label": "Contact", "value": "contact" },
+        { "label": "Company", "value": "company" },
+        { "label": "Ticket", "value": "ticket" }
+      ]
+    },
+    {
+      "name": "affected_entity_id",
+      "label": "Affected Entity ID",
+      "type": "string",
+      "fieldType": "text",
+      "description": "ID of the affected CRM object"
+    },
+    {
+      "name": "detected_at",
+      "label": "Detected At",
+      "type": "datetime",
+      "fieldType": "date",
+      "description": "When the leak was first detected"
+    },
+    {
+      "name": "expires_at",
+      "label": "Expires At",
+      "type": "datetime",
+      "fieldType": "date",
+      "description": "When the recovery opportunity expires"
+    },
+    {
+      "name": "resolved_at",
+      "label": "Resolved At",
+      "type": "datetime",
+      "fieldType": "date",
+      "description": "When the leak was resolved"
+    },
+    {
+      "name": "recovered_amount",
+      "label": "Recovered Amount",
+      "type": "number",
+      "fieldType": "number",
+      "description": "Amount actually recovered in cents"
+    },
+    {
+      "name": "detection_source",
+      "label": "Detection Source",
+      "type": "enumeration",
+      "fieldType": "select",
+      "description": "How this leak was detected",
+      "options": [
+        { "label": "Automated Scan", "value": "automated" },
+        { "label": "Manual Review", "value": "manual" },
+        { "label": "Workflow Trigger", "value": "workflow" },
+        { "label": "Breeze Agent", "value": "breeze" }
+      ]
+    }
+  ],
+  "associations": [
+    {
+      "toObjectType": "DEAL",
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "toObjectType": "CONTACT",
+      "cardinality": "ONE_TO_MANY"
+    },
+    {
+      "toObjectType": "COMPANY",
+      "cardinality": "ONE_TO_MANY"
+    }
+  ]
+}

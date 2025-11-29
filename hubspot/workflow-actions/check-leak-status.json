@@ -1,0 +1,63 @@
+{
+  "name": "check-leak-status",
+  "description": "Check if a record has any active revenue leaks and get details about their severity and total amount at risk.",
+  "actionUrl": "{{EXTERNAL_ACTION_URL}}/api/v1/workflows/check-status",
+  "objectTypes": ["DEAL", "CONTACT", "COMPANY"],
+  "published": true,
+  "supportedClients": ["WORKFLOWS", "AGENTS"],
+  "agentConfig": {
+    "toolType": "FETCH_DATA",
+    "displayName": "Check Leak Status",
+    "description": "Retrieve information about active revenue leaks on this record, including count, severity levels, and total revenue at risk."
+  },
+  "inputFields": [
+    {
+      "typeDefinition": {
+        "name": "severityThreshold",
+        "type": "enumeration",
+        "fieldType": "dropdown",
+        "options": [
+          { "label": "Any Severity", "value": "any", "description": "Return all active leaks" },
+          { "label": "Medium or Higher", "value": "medium", "description": "Return medium, high, and critical leaks" },
+          { "label": "High or Critical", "value": "high", "description": "Return only high and critical leaks" },
+          { "label": "Critical Only", "value": "critical", "description": "Return only critical leaks" }
+        ]
+      },
+      "supportedValueTypes": ["STATIC_VALUE"],
+      "isRequired": false
+    }
+  ],
+  "outputFields": [
+    {
+      "typeDefinition": {
+        "name": "hasActiveLeaks",
+        "type": "bool"
+      }
+    },
+    {
+      "typeDefinition": {
+        "name": "leakCount",
+        "type": "number"
+      }
+    },
+    {
+      "typeDefinition": {
+        "name": "highestSeverity",
+        "type": "string"
+      }
+    },
+    {
+      "typeDefinition": {
+        "name": "totalAtRisk",
+        "type": "number"
+      }
+    }
+  ],
+  "labels": {
+    "en": {
+      "actionName": "Check Leak Status",
+      "actionDescription": "Check if the record has any active revenue leaks",
+      "actionCardContent": "Checking leak status..."
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "app-settings",
+  "data": {
+    "title": "Leak Detection Settings",
+    "module": {
+      "file": "ui-extensions/modals/SettingsPanel.tsx"
+    },
+    "location": "app.private-settings"
+  }
+}

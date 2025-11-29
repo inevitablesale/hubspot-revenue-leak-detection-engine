@@ -1,0 +1,45 @@
+{
+  "name": "scan_completed",
+  "label": "Leak Detection Scan Completed",
+  "objectType": "DEAL",
+  "headerTemplate": "Leak detection scan completed",
+  "detailTemplate": "Detection scan completed. Found {{leaksFound}} leak(s) with {{totalAtRisk}} at risk. Scan type: {{scanType}}.",
+  "tokens": [
+    {
+      "name": "scanId",
+      "label": "Scan ID",
+      "type": "string"
+    },
+    {
+      "name": "scanType",
+      "label": "Scan Type",
+      "type": "enumeration",
+      "options": [
+        { "value": "full", "label": "Full Scan" },
+        { "value": "quick", "label": "Quick Scan" },
+        { "value": "scheduled", "label": "Scheduled Scan" },
+        { "value": "module", "label": "Module-specific Scan" }
+      ]
+    },
+    {
+      "name": "leaksFound",
+      "label": "Leaks Found",
+      "type": "number"
+    },
+    {
+      "name": "totalAtRisk",
+      "label": "Total At Risk",
+      "type": "string"
+    },
+    {
+      "name": "criticalCount",
+      "label": "Critical Count",
+      "type": "number"
+    },
+    {
+      "name": "duration",
+      "label": "Duration",
+      "type": "string"
+    }
+  ]
+}

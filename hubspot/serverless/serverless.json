@@ -1,0 +1,28 @@
+{
+  "runtime": "nodejs18.x",
+  "version": "1.0",
+  "secrets": ["PRIVATE_APP_ACCESS_TOKEN"],
+  "endpoints": {
+    "run-detection": {
+      "method": "POST",
+      "file": "run-detection.ts",
+      "environment": {
+        "TIMEOUT": "30000"
+      }
+    },
+    "execute-recovery": {
+      "method": "POST",
+      "file": "execute-recovery.ts",
+      "environment": {
+        "TIMEOUT": "30000"
+      }
+    },
+    "get-ai-recommendation": {
+      "method": "POST",
+      "file": "get-ai-recommendation.ts",
+      "environment": {
+        "TIMEOUT": "30000"
+      }
+    }
+  }
+}

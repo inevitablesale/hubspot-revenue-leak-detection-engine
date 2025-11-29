@@ -1,6 +1,6 @@
 # HubSpot Revenue Leak Detection Engine
 
-A self-operating RevOps platform that identifies and recovers hidden revenue leaks across the full customer lifecycle. **Now available as a fully integrated HubSpot Native App** with embedded UI Extensions, CRM cards, and workflow actions - requiring zero CLI interaction.
+A self-operating RevOps platform that identifies and recovers hidden revenue leaks across the full customer lifecycle. **Now available as a fully integrated HubSpot Native App** with embedded UI Extensions, CRM cards, workflow actions, App Objects, and **Breeze Agent support** - requiring zero CLI interaction.
 
 ## 🎯 Key Features
 
@@ -12,6 +12,62 @@ A self-operating RevOps platform that identifies and recovers hidden revenue lea
 | **Governance** | Financial controls, audit trails, compliance checks, approval workflows |
 | **Integration** | HubSpot CRM, Outlook, QuickBooks, Stripe, Shopify, Gmail, Salesforce |
 | **Compliance** | HIPAA mode, GDPR mode, SOC2, audit logging, data encryption |
+| **AI/Breeze** | Breeze Agent Tools for AI-powered leak detection and recovery |
+
+## 🚀 HubSpot Native App Architecture
+
+This app is built as a **fully native HubSpot app** using the 2025.2 platform version, leveraging:
+
+- **App Objects** - Native CRM storage for leak data (no external database needed)
+- **App Events** - Timeline events for audit trails
+- **UI Extensions** - React-based CRM cards, dashboard, and settings
+- **Workflow Actions** - Custom actions with Breeze Agent support
+- **Serverless Functions** - Backend logic running on HubSpot's infrastructure
+
+### Platform Requirements
+
+- HubSpot CLI v2025.2 or later
+- Node.js 18+
+- HubSpot Professional or Enterprise subscription
+
+## 🤖 Breeze Agent Integration
+
+The app includes **Breeze Agent Tools** that enable AI-powered automation:
+
+| Agent Tool | Type | Description |
+|------------|------|-------------|
+| **Run Leak Detection** | TAKE_ACTION | Scan records for revenue leaks |
+| **Execute Recovery** | TAKE_ACTION | Auto-fix, create tasks, notify teams |
+| **Check Leak Status** | FETCH_DATA | Get leak status and severity info |
+| **Log Leak Event** | TAKE_ACTION | Add timeline entries for auditing |
+| **Get AI Recommendation** | FETCH_DATA | Get AI-powered resolution suggestions |
+
+> **Note:** Agent tools require a publicly accessible endpoint. The workflow actions are configured with `supportedClients: ["WORKFLOWS", "AGENTS"]` to enable both manual and AI-driven automation.
+
+## 📦 HubSpot App Objects
+
+The app stores all data natively in HubSpot using custom App Objects:
+
+### Revenue Leak Object
+Stores detected leaks with:
+- Leak type, severity, and urgency score
+- Potential revenue at risk
+- Recovery status tracking
+- Associations to Deals, Contacts, Companies
+
+### Leak Detection Config Object
+Stores app configuration:
+- Industry template settings
+- Module enable/disable flags
+- Compliance mode settings
+- Integration connection status
+
+## 📅 App Events (Timeline)
+
+Timeline events are logged for:
+- **Leak Detected** - When a new leak is found
+- **Leak Resolved** - When a leak is fixed
+- **Scan Completed** - After detection scans
 
 ## 🚀 HubSpot App Installation
 
@@ -31,6 +87,22 @@ A self-operating RevOps platform that identifies and recovers hidden revenue lea
    - Import the `app.json` configuration
    - Configure OAuth scopes and webhook endpoints
 5. **Complete the In-App Setup Wizard** that appears after installation
+
+### Deploy with HubSpot CLI
+
+```bash
+# Install HubSpot CLI
+npm install -g @hubspot/cli@latest
+
+# Authenticate
+hs auth
+
+# Upload the app
+hs project upload
+
+# Deploy
+hs project deploy
+```
 
 ### In-App Onboarding Wizard
 
@@ -60,7 +132,7 @@ Each card displays:
 - 🔧 One-click fix actions
 - 📝 Recommended next steps
 
-### Dashboard Page
+### App Home Page (Dashboard)
 
 Access the full-width dashboard from HubSpot's app menu:
 - 📈 Leak trends over time (stacked chart by type)
@@ -69,7 +141,7 @@ Access the full-width dashboard from HubSpot's app menu:
 - 🎯 Portal autonomy score and governance coverage
 - 📥 Export to HTML or CSV
 
-### Settings Panel
+### App Settings Page
 
 Configure the app directly in HubSpot:
 - Enable/disable detection modules
@@ -81,15 +153,15 @@ Configure the app directly in HubSpot:
 
 ## 🔄 Workflow Actions
 
-Use these custom workflow actions in HubSpot:
+Use these custom workflow actions in HubSpot (all support Breeze Agents):
 
-| Action | Description |
-|--------|-------------|
-| **Run Leak Detection** | Scan enrolled records for revenue leaks |
-| **Execute Recovery** | Auto-fix, create tasks, notify team, or escalate |
-| **Check Leak Status** | Branch based on leak presence and severity |
-| **Log Leak Event** | Add timeline events for audit trails |
-| **Update Leak Property** | Update custom leak detection properties |
+| Action | Description | Agent-Enabled |
+|--------|-------------|---------------|
+| **Run Leak Detection** | Scan enrolled records for revenue leaks | ✅ |
+| **Execute Recovery** | Auto-fix, create tasks, notify team, or escalate | ✅ |
+| **Check Leak Status** | Branch based on leak presence and severity | ✅ |
+| **Log Leak Event** | Add timeline events for audit trails | ✅ |
+| **Get AI Recommendation** | Get AI-powered resolution suggestions | ✅ |
 
 Example workflow triggers:
 - Deal stage changes to "Closed Won" → Run CS handoff detection
@@ -189,10 +261,18 @@ GET  /api/v1/integrations                 # List integrations
 POST /api/v1/integrations/:id/connect     # Connect integration
 POST /api/v1/integrations/:id/sync        # Trigger sync
 
-# Workflows
+# Workflows (Agent-enabled)
 POST /api/v1/workflows/run-detection      # Workflow action
 POST /api/v1/workflows/execute-recovery   # Workflow action
+POST /api/v1/workflows/check-status       # Workflow action
+POST /api/v1/workflows/log-event          # Workflow action
 GET  /api/v1/workflows/actions            # List workflow actions
+
+# Breeze AI
+POST /api/v1/breeze/recommend             # Get AI recommendation
+POST /api/v1/breeze/execute               # Execute Breeze action
+GET  /api/v1/breeze/actions               # List Breeze actions
+GET  /api/v1/breeze/actions/:leakType     # Get action for leak type
 
 # Export
 GET  /api/v1/export/leaks?format=csv      # Export leaks
@@ -204,7 +284,7 @@ GET  /api/v1/export/audit                 # Export audit log
 
 ```
 ├── app.json                    # HubSpot app configuration
-├── hsproject.json              # HubSpot project file
+├── hsproject.json              # HubSpot project file (platformVersion 2025.2)
 ├── ui-extensions/              # React UI components
 │   ├── cards/                  # CRM card components
 │   │   ├── DealLeakCard.tsx
@@ -213,14 +293,34 @@ GET  /api/v1/export/audit                 # Export audit log
 │   │   └── TicketLeakCard.tsx
 │   ├── modals/                 # Modal components
 │   │   ├── OnboardingWizard.tsx
-│   │   └── SettingsPanel.tsx
+│   │   ├── SettingsPanel.tsx
+│   │   └── settings-panel.json # App settings config
 │   ├── pages/                  # App pages
-│   │   └── DashboardPage.tsx
+│   │   ├── DashboardPage.tsx
+│   │   └── dashboard-page.json # App home config
 │   ├── utils/                  # Utilities
 │   │   └── api-client.ts
 │   └── types.ts               # UI type definitions
-├── hubspot/                    # HubSpot-specific code
-│   └── workflows/              # Workflow action definitions
+├── hubspot/                    # HubSpot-specific configurations
+│   ├── objects/               # App Objects schemas
+│   │   ├── revenue-leak.json
+│   │   └── leak-detection-config.json
+│   ├── events/                # App Events (timeline)
+│   │   ├── leak-detected.json
+│   │   ├── leak-resolved.json
+│   │   └── scan-completed.json
+│   ├── workflow-actions/      # Agent-enabled workflow actions
+│   │   ├── run-leak-detection.json
+│   │   ├── execute-recovery.json
+│   │   ├── check-leak-status.json
+│   │   ├── log-leak-event.json
+│   │   └── get-ai-recommendation.json
+│   ├── serverless/            # Serverless functions
+│   │   ├── serverless.json
+│   │   ├── run-detection.ts
+│   │   ├── execute-recovery.ts
+│   │   └── get-ai-recommendation.ts
+│   └── workflows/             # Workflow action definitions
 │       └── actions.ts
 ├── src/
 │   ├── index.ts               # Main application entry
@@ -231,7 +331,12 @@ GET  /api/v1/export/audit                 # Export audit log
 │   │   ├── export.ts         # Export API
 │   │   ├── integrations.ts   # Integrations API
 │   │   ├── webhooks.ts       # Webhook handlers
-│   │   └── workflows.ts      # Workflow action handlers
+│   │   ├── workflows.ts      # Workflow action handlers
+│   │   └── breeze.ts         # Breeze AI API
+│   ├── breeze/               # Breeze integration
+│   │   ├── agent-memory.ts
+│   │   ├── fix-actions.ts
+│   │   └── index.ts
 │   ├── engine/                # Detection modules
 │   ├── integrations/          # Third-party integrations
 │   ├── auth/                  # OAuth implementation
@@ -258,6 +363,10 @@ npm test
 
 # Lint code
 npm run lint
+
+# Deploy to HubSpot
+hs project upload
+hs project deploy
 ```
 
 ## 📋 Legacy CLI Support
@@ -287,6 +396,9 @@ npx leak-engine dashboard
 HUBSPOT_CLIENT_ID=your_client_id
 HUBSPOT_CLIENT_SECRET=your_client_secret
 HUBSPOT_REDIRECT_URI=https://your-app.com/oauth/callback
+
+# For serverless functions
+PRIVATE_APP_ACCESS_TOKEN=your_private_app_token
 
 # Optional
 PORT=3000

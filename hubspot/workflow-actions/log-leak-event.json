@@ -1,0 +1,55 @@
+{
+  "name": "log-leak-event",
+  "description": "Log a leak detection event to the record timeline for audit and tracking purposes.",
+  "actionUrl": "{{EXTERNAL_ACTION_URL}}/api/v1/workflows/log-event",
+  "objectTypes": ["DEAL", "CONTACT", "COMPANY"],
+  "published": true,
+  "supportedClients": ["WORKFLOWS", "AGENTS"],
+  "agentConfig": {
+    "toolType": "TAKE_ACTION",
+    "displayName": "Log Leak Event",
+    "description": "Add a timeline entry to document leak detection activities, resolution attempts, or status changes."
+  },
+  "inputFields": [
+    {
+      "typeDefinition": {
+        "name": "eventType",
+        "type": "enumeration",
+        "fieldType": "dropdown",
+        "options": [
+          { "label": "Leak Detected", "value": "detected", "description": "A new leak was detected" },
+          { "label": "Recovery Started", "value": "recovery_started", "description": "Recovery action initiated" },
+          { "label": "Leak Resolved", "value": "resolved", "description": "Leak has been resolved" },
+          { "label": "Leak Dismissed", "value": "dismissed", "description": "Leak was dismissed as not actionable" },
+          { "label": "Manual Review Required", "value": "manual_review", "description": "Needs human review" }
+        ]
+      },
+      "supportedValueTypes": ["STATIC_VALUE"],
+      "isRequired": true
+    },
+    {
+      "typeDefinition": {
+        "name": "details",
+        "type": "string",
+        "fieldType": "text"
+      },
+      "supportedValueTypes": ["STATIC_VALUE", "OBJECT_PROPERTY"],
+      "isRequired": false
+    }
+  ],
+  "outputFields": [
+    {
+      "typeDefinition": {
+        "name": "eventLogged",
+        "type": "bool"
+      }
+    }
+  ],
+  "labels": {
+    "en": {
+      "actionName": "Log Leak Event",
+      "actionDescription": "Log a leak detection event to the record timeline",
+      "actionCardContent": "Logging event to timeline..."
+    }
+  }
+}

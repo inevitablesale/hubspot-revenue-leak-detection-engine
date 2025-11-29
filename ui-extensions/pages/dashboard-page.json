@@ -1,0 +1,10 @@
+{
+  "type": "app-home",
+  "data": {
+    "title": "Revenue Leak Dashboard",
+    "module": {
+      "file": "ui-extensions/pages/DashboardPage.tsx"
+    },
+    "location": "app.private-home"
+  }
+}
