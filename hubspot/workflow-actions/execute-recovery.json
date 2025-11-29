@@ -1,0 +1,78 @@
+{
+  "name": "execute-recovery",
+  "description": "Execute a recovery action for detected revenue leaks. Can auto-fix, create tasks, notify teams, or escalate issues.",
+  "actionUrl": "{{EXTERNAL_ACTION_URL}}/api/v1/workflows/execute-recovery",
+  "objectTypes": ["DEAL", "CONTACT", "COMPANY"],
+  "published": true,
+  "supportedClients": ["WORKFLOWS", "AGENTS"],
+  "agentConfig": {
+    "toolType": "TAKE_ACTION",
+    "displayName": "Execute Recovery Action",
+    "description": "Take action to recover revenue from detected leaks. Choose from auto-fix, create task, notify team, escalate, or update properties."
+  },
+  "inputFields": [
+    {
+      "typeDefinition": {
+        "name": "recoveryType",
+        "type": "enumeration",
+        "fieldType": "dropdown",
+        "options": [
+          { "label": "Auto-fix (Low Risk)", "value": "auto_fix", "description": "Automatically fix low-risk issues" },
+          { "label": "Create Task", "value": "create_task", "description": "Create a follow-up task for review" },
+          { "label": "Send Notification", "value": "notify", "description": "Notify the team about the leak" },
+          { "label": "Escalate to Manager", "value": "escalate", "description": "Escalate for manager review" },
+          { "label": "Update Property", "value": "update_property", "description": "Update a record property" }
+        ]
+      },
+      "supportedValueTypes": ["STATIC_VALUE"],
+      "isRequired": true
+    },
+    {
+      "typeDefinition": {
+        "name": "leakType",
+        "type": "enumeration",
+        "fieldType": "dropdown",
+        "options": [
+          { "label": "Any Active Leak", "value": "any" },
+          { "label": "Underbilling", "value": "underbilling" },
+          { "label": "Missed Renewal", "value": "missed_renewal" },
+          { "label": "Cross-sell", "value": "untriggered_crosssell" },
+          { "label": "CS Handoff", "value": "stalled_cs_handoff" },
+          { "label": "Billing Gap", "value": "billing_gap" }
+        ]
+      },
+      "supportedValueTypes": ["STATIC_VALUE"],
+      "isRequired": false
+    },
+    {
+      "typeDefinition": {
+        "name": "assignee",
+        "type": "string",
+        "fieldType": "text"
+      },
+      "supportedValueTypes": ["STATIC_VALUE", "OBJECT_PROPERTY"],
+      "isRequired": false
+    }
+  ],
+  "outputFields": [
+    {
+      "typeDefinition": {
+        "name": "actionExecuted",
+        "type": "bool"
+      }
+    },
+    {
+      "typeDefinition": {
+        "name": "resultMessage",
+        "type": "string"
+      }
+    }
+  ],
+  "labels": {
+    "en": {
+      "actionName": "Execute Recovery Action",
+      "actionDescription": "Execute a recovery action for detected revenue leaks",
+      "actionCardContent": "Executing recovery action..."
+    }
+  }
+}

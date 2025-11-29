@@ -35,6 +35,9 @@ describe('RevOpsAgentOS', () => {
         stalled_cs_handoff: leaks.filter(l => l.type === 'stalled_cs_handoff').length,
         invalid_lifecycle_path: leaks.filter(l => l.type === 'invalid_lifecycle_path').length,
         billing_gap: leaks.filter(l => l.type === 'billing_gap').length,
+        stale_pipeline: leaks.filter(l => l.type === 'stale_pipeline').length,
+        missed_handoff: leaks.filter(l => l.type === 'missed_handoff').length,
+        data_quality: leaks.filter(l => l.type === 'data_quality').length,
       },
       bySeverity: {
         low: leaks.filter(l => l.severity === 'low').length,

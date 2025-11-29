@@ -1,0 +1,58 @@
+{
+  "name": "leak_resolved",
+  "label": "Revenue Leak Resolved",
+  "objectType": "DEAL",
+  "headerTemplate": "Revenue leak resolved: {{leakType}}",
+  "detailTemplate": "A {{severity}} severity revenue leak was resolved. Recovered revenue: {{recoveredAmount}}. Resolution method: {{resolutionMethod}}.",
+  "tokens": [
+    {
+      "name": "leakId",
+      "label": "Leak ID",
+      "type": "string"
+    },
+    {
+      "name": "leakType",
+      "label": "Leak Type",
+      "type": "enumeration",
+      "options": [
+        { "value": "underbilling", "label": "Underbilling" },
+        { "value": "missed_renewal", "label": "Missed Renewal" },
+        { "value": "untriggered_crosssell", "label": "Cross-sell Opportunity" },
+        { "value": "stalled_cs_handoff", "label": "Stalled CS Handoff" },
+        { "value": "invalid_lifecycle_path", "label": "Invalid Lifecycle" },
+        { "value": "billing_gap", "label": "Billing Gap" },
+        { "value": "stale_pipeline", "label": "Stale Pipeline" },
+        { "value": "missed_handoff", "label": "Missed Handoff" },
+        { "value": "data_quality", "label": "Data Quality" }
+      ]
+    },
+    {
+      "name": "severity",
+      "label": "Severity",
+      "type": "enumeration",
+      "options": [
+        { "value": "low", "label": "Low" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "high", "label": "High" },
+        { "value": "critical", "label": "Critical" }
+      ]
+    },
+    {
+      "name": "recoveredAmount",
+      "label": "Recovered Amount",
+      "type": "string"
+    },
+    {
+      "name": "resolutionMethod",
+      "label": "Resolution Method",
+      "type": "enumeration",
+      "options": [
+        { "value": "auto_fix", "label": "Automatic Fix" },
+        { "value": "manual", "label": "Manual Resolution" },
+        { "value": "workflow", "label": "Workflow Action" },
+        { "value": "breeze", "label": "Breeze Agent" },
+        { "value": "dismissed", "label": "Dismissed" }
+      ]
+    }
+  ]
+}

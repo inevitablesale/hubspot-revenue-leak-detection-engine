@@ -1,0 +1,73 @@
+{
+  "name": "run-leak-detection",
+  "description": "Run a revenue leak detection scan on the enrolled record to identify underbilling, missed renewals, cross-sell opportunities, and other revenue leaks.",
+  "actionUrl": "{{EXTERNAL_ACTION_URL}}/api/v1/workflows/run-detection",
+  "objectTypes": ["DEAL", "CONTACT", "COMPANY"],
+  "published": true,
+  "supportedClients": ["WORKFLOWS", "AGENTS"],
+  "agentConfig": {
+    "toolType": "TAKE_ACTION",
+    "displayName": "Run Leak Detection Scan",
+    "description": "Analyze the record for revenue leaks including underbilling, missed renewals, stalled handoffs, and billing gaps. Returns the number of leaks found and total revenue at risk."
+  },
+  "inputFields": [
+    {
+      "typeDefinition": {
+        "name": "scanType",
+        "type": "enumeration",
+        "fieldType": "dropdown",
+        "options": [
+          { "label": "Full Scan", "value": "full", "description": "Run all detection modules" },
+          { "label": "Quick Scan", "value": "quick", "description": "Run high-priority checks only" },
+          { "label": "Specific Module", "value": "module", "description": "Run a specific detection module" }
+        ]
+      },
+      "supportedValueTypes": ["STATIC_VALUE"],
+      "isRequired": true
+    },
+    {
+      "typeDefinition": {
+        "name": "module",
+        "type": "enumeration",
+        "fieldType": "dropdown",
+        "options": [
+          { "label": "Underbilling", "value": "underbilling" },
+          { "label": "Missed Renewals", "value": "missed_renewal" },
+          { "label": "Cross-sell", "value": "untriggered_crosssell" },
+          { "label": "CS Handoff", "value": "stalled_cs_handoff" },
+          { "label": "Lifecycle", "value": "invalid_lifecycle_path" },
+          { "label": "Billing Gap", "value": "billing_gap" }
+        ]
+      },
+      "supportedValueTypes": ["STATIC_VALUE"],
+      "isRequired": false
+    }
+  ],
+  "outputFields": [
+    {
+      "typeDefinition": {
+        "name": "leaksFound",
+        "type": "number"
+      }
+    },
+    {
+      "typeDefinition": {
+        "name": "potentialRevenue",
+        "type": "number"
+      }
+    },
+    {
+      "typeDefinition": {
+        "name": "hasCriticalLeak",
+        "type": "bool"
+      }
+    }
+  ],
+  "labels": {
+    "en": {
+      "actionName": "Run Leak Detection",
+      "actionDescription": "Scan the enrolled record for revenue leaks",
+      "actionCardContent": "Scanning for revenue leaks..."
+    }
+  }
+}

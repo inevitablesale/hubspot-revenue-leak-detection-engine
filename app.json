@@ -1,6 +1,6 @@
 {
   "name": "Revenue Leak Detection Engine",
-  "description": "Identifies hidden revenue leaks across the full customer lifecycle including underbilling, missed renewals, dropped handoffs, and orphaned accounts",
+  "description": "Identifies hidden revenue leaks across the full customer lifecycle including underbilling, missed renewals, dropped handoffs, and orphaned accounts. HubSpot Native App with Breeze Agent support.",
   "uid": "revenue-leak-detection",
   "scopes": [
     "crm.objects.deals.read",
@@ -11,12 +11,17 @@
     "crm.objects.companies.write",
     "crm.objects.custom.read",
     "crm.objects.custom.write",
+    "crm.schemas.custom.read",
+    "crm.schemas.custom.write",
     "timeline",
     "automation",
     "forms",
     "sales-email-read",
     "settings.users.read",
-    "settings.users.teams.read"
+    "settings.users.teams.read",
+    "crm.schemas.contacts.read",
+    "crm.schemas.deals.read",
+    "crm.schemas.companies.read"
   ],
   "public": false,
   "extensions": {
@@ -35,8 +40,54 @@
           "file": "ui-extensions/cards/ticket-leak-card.json"
         }
       ]
-    }
+    },
+    "appPages": [
+      {
+        "file": "ui-extensions/pages/dashboard-page.json"
+      }
+    ],
+    "appSettings": [
+      {
+        "file": "ui-extensions/modals/settings-panel.json"
+      }
+    ]
   },
+  "appObjects": [
+    {
+      "file": "hubspot/objects/revenue-leak.json"
+    },
+    {
+      "file": "hubspot/objects/leak-detection-config.json"
+    }
+  ],
+  "appEvents": [
+    {
+      "file": "hubspot/events/leak-detected.json"
+    },
+    {
+      "file": "hubspot/events/leak-resolved.json"
+    },
+    {
+      "file": "hubspot/events/scan-completed.json"
+    }
+  ],
+  "workflowActions": [
+    {
+      "file": "hubspot/workflow-actions/run-leak-detection.json"
+    },
+    {
+      "file": "hubspot/workflow-actions/execute-recovery.json"
+    },
+    {
+      "file": "hubspot/workflow-actions/check-leak-status.json"
+    },
+    {
+      "file": "hubspot/workflow-actions/log-leak-event.json"
+    },
+    {
+      "file": "hubspot/workflow-actions/get-ai-recommendation.json"
+    }
+  ],
   "webhooks": {
     "events": [
       {

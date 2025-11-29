@@ -1,0 +1,72 @@
+{
+  "name": "get-ai-recommendation",
+  "description": "Get AI-powered recommendations for resolving a detected revenue leak using Breeze intelligence.",
+  "actionUrl": "{{EXTERNAL_ACTION_URL}}/api/v1/breeze/recommend",
+  "objectTypes": ["DEAL", "CONTACT", "COMPANY"],
+  "published": true,
+  "supportedClients": ["WORKFLOWS", "AGENTS"],
+  "agentConfig": {
+    "toolType": "FETCH_DATA",
+    "displayName": "Get AI Recommendation",
+    "description": "Use AI to analyze the revenue leak context and provide intelligent recommendations for resolution, including confidence scores and alternative approaches."
+  },
+  "inputFields": [
+    {
+      "typeDefinition": {
+        "name": "leakId",
+        "type": "string",
+        "fieldType": "text"
+      },
+      "supportedValueTypes": ["STATIC_VALUE", "OBJECT_PROPERTY"],
+      "isRequired": false
+    },
+    {
+      "typeDefinition": {
+        "name": "includeAlternatives",
+        "type": "bool",
+        "fieldType": "checkbox"
+      },
+      "supportedValueTypes": ["STATIC_VALUE"],
+      "isRequired": false
+    }
+  ],
+  "outputFields": [
+    {
+      "typeDefinition": {
+        "name": "recommendedAction",
+        "type": "string"
+      }
+    },
+    {
+      "typeDefinition": {
+        "name": "confidence",
+        "type": "number"
+      }
+    },
+    {
+      "typeDefinition": {
+        "name": "reasoning",
+        "type": "string"
+      }
+    },
+    {
+      "typeDefinition": {
+        "name": "expectedOutcome",
+        "type": "string"
+      }
+    },
+    {
+      "typeDefinition": {
+        "name": "risks",
+        "type": "string"
+      }
+    }
+  ],
+  "labels": {
+    "en": {
+      "actionName": "Get AI Recommendation",
+      "actionDescription": "Get AI-powered recommendations for resolving revenue leaks",
+      "actionCardContent": "Analyzing with AI..."
+    }
+  }
+}

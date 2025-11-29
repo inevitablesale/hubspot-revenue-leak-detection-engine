@@ -1,0 +1,84 @@
+{
+  "name": "leak_detected",
+  "label": "Revenue Leak Detected",
+  "objectType": "DEAL",
+  "headerTemplate": "Revenue leak detected: {{leakType}}",
+  "detailTemplate": "A {{severity}} severity revenue leak was detected. Potential revenue at risk: {{potentialRevenue}}. {{description}}",
+  "primaryAction": {
+    "type": "IFRAME",
+    "label": "View Details",
+    "width": 600,
+    "height": 400,
+    "uri": "{{appUrl}}/leaks/{{leakId}}"
+  },
+  "secondaryActions": [
+    {
+      "type": "ACTION_HOOK",
+      "label": "Fix Now",
+      "httpMethod": "POST",
+      "uri": "{{appUrl}}/api/v1/actions/fix-leak",
+      "propertiesToSend": ["leakId", "objectId"]
+    },
+    {
+      "type": "ACTION_HOOK",
+      "label": "Dismiss",
+      "httpMethod": "POST",
+      "uri": "{{appUrl}}/api/v1/leaks/{{leakId}}/dismiss",
+      "propertiesToSend": ["leakId"]
+    }
+  ],
+  "tokens": [
+    {
+      "name": "leakId",
+      "label": "Leak ID",
+      "type": "string"
+    },
+    {
+      "name": "leakType",
+      "label": "Leak Type",
+      "type": "enumeration",
+      "options": [
+        { "value": "underbilling", "label": "Underbilling" },
+        { "value": "missed_renewal", "label": "Missed Renewal" },
+        { "value": "untriggered_crosssell", "label": "Cross-sell Opportunity" },
+        { "value": "stalled_cs_handoff", "label": "Stalled CS Handoff" },
+        { "value": "invalid_lifecycle_path", "label": "Invalid Lifecycle" },
+        { "value": "billing_gap", "label": "Billing Gap" },
+        { "value": "stale_pipeline", "label": "Stale Pipeline" },
+        { "value": "missed_handoff", "label": "Missed Handoff" },
+        { "value": "data_quality", "label": "Data Quality" }
+      ]
+    },
+    {
+      "name": "severity",
+      "label": "Severity",
+      "type": "enumeration",
+      "options": [
+        { "value": "low", "label": "Low" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "high", "label": "High" },
+        { "value": "critical", "label": "Critical" }
+      ]
+    },
+    {
+      "name": "potentialRevenue",
+      "label": "Potential Revenue",
+      "type": "string"
+    },
+    {
+      "name": "description",
+      "label": "Description",
+      "type": "string"
+    },
+    {
+      "name": "objectId",
+      "label": "Object ID",
+      "type": "string"
+    },
+    {
+      "name": "appUrl",
+      "label": "App URL",
+      "type": "string"
+    }
+  ]
+}
