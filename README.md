@@ -1,5 +1,7 @@
 # HubSpot Revenue Leak Detection Engine
 
+> ⚠️ **Important Notice:** This app uses advanced features of the HubSpot 2025.2 developer platform, including app-defined objects, timeline events, AI agents, and embedded UI extensions. Some capabilities (e.g., App Objects, Agent Tools) may require prior approval from HubSpot. See the [App Objects section](#-hubspot-app-objects) for details on requesting access.
+
 A self-operating RevOps platform that identifies and recovers hidden revenue leaks across the full customer lifecycle. **Now available as a fully integrated HubSpot Native App** with embedded UI Extensions, CRM cards, workflow actions, App Objects, and **Breeze Agent support** - requiring zero CLI interaction.
 
 ## 🎯 Key Features
@@ -16,21 +18,26 @@ A self-operating RevOps platform that identifies and recovers hidden revenue lea
 
 ## 🚀 HubSpot Native App Architecture
 
+> ⚠️ **App Objects require HubSpot approval.** [Request access here](https://developers.hubspot.com/beta-programs/app-objects).
+
 This app is built as a **fully native HubSpot app** using the 2025.2 platform version, leveraging:
 
-- **App Objects** - Native CRM storage for leak data (no external database needed)
-- **App Events** - Timeline events for audit trails
-- **UI Extensions** - React-based CRM cards, dashboard, and settings
-- **Workflow Actions** - Custom actions with Breeze Agent support
-- **Serverless Functions** - Backend logic running on HubSpot's infrastructure
+- **App Objects** - Native CRM storage for leak data (no external database needed) — *Beta: [Request Access](https://developers.hubspot.com/beta-programs/app-objects)*
+- **App Events** - Timeline events for audit trails — [Documentation](https://developers.hubspot.com/docs/api/crm/timeline)
+- **UI Extensions** - React-based CRM cards, dashboard, and settings — [Documentation](https://developers.hubspot.com/docs/platform/ui-extensions-overview)
+- **Workflow Actions** - Custom actions with Breeze Agent support — [Documentation](https://developers.hubspot.com/docs/platform/custom-workflow-actions)
+- **Serverless Functions** - Backend logic running on HubSpot's infrastructure — [Documentation](https://developers.hubspot.com/docs/platform/serverless-functions)
 
 ### Platform Requirements
 
-- HubSpot CLI v7.6+ (for 2025.2 platform)
+- HubSpot CLI v7.6+ (for 2025.2 platform) — *For development only*
 - Node.js 20+ (required by 2025.2 platform)
-- HubSpot Professional or Enterprise subscription
+- **HubSpot Enterprise subscription** — Required for App Objects, Custom Workflow Actions, and Benchmark Analytics
+- App Objects approval from HubSpot — [Request Access](https://developers.hubspot.com/beta-programs/app-objects)
 
 ### Project Structure (2025.2 Platform)
+
+> ⚠️ **Note:** App Objects require HubSpot approval before deployment. [Request access here](https://developers.hubspot.com/beta-programs/app-objects).
 
 ```
 hsproject.json                    # Project configuration (platformVersion: "2025.2")
@@ -52,11 +59,13 @@ ui-extensions/
 └── pages/                       # App pages
 ```
 
-> **Note:** App Objects are in controlled beta. You must request approval from HubSpot to use app-defined objects.
+> **Note:** App Objects are in controlled beta. You must [request approval from HubSpot](https://developers.hubspot.com/beta-programs/app-objects) to use app-defined objects before deploying this application.
 
 ## 🤖 Breeze Agent Integration
 
-The app includes **Breeze Agent Tools** that enable AI-powered automation:
+The app includes **Breeze Agent Tools** that enable AI-powered automation. See [HubSpot Breeze AI documentation](https://developers.hubspot.com/docs/platform/breeze-agent-tools) for more details.
+
+> ⚠️ **Note:** Agent tools must invoke publicly accessible `actionUrl` endpoints. Direct usage of internal HubSpot serverless functions is not currently supported for AI agents.
 
 | Agent Tool | Type | Description |
 |------------|------|-------------|
@@ -66,7 +75,7 @@ The app includes **Breeze Agent Tools** that enable AI-powered automation:
 | **Log Leak Event** | TAKE_ACTION | Add timeline entries for auditing |
 | **Get AI Recommendation** | FETCH_DATA | Get AI-powered resolution suggestions |
 
-> **Note:** Agent tools require a publicly accessible endpoint. The workflow actions are configured with `supportedClients: ["WORKFLOWS", "AGENTS"]` to enable both manual and AI-driven automation.
+> **Note:** Agent tools require a publicly accessible endpoint. The workflow actions are configured with `supportedClients: ["WORKFLOWS", "AGENTS"]` to enable both manual and AI-driven automation. Direct calls to HubSpot serverless functions are not supported for AI agents.
 
 ## 🚀 Advanced Features
 
@@ -97,7 +106,7 @@ POST /api/v1/rules
 - Import/export rules as JSON
 - 12+ condition operators (equals, greater_than, days_since, is_empty, etc.)
 
-### 2. Cross-Portal Intelligence Layer
+### 2. Cross-Portal Intelligence Layer *(HubSpot Enterprise Required)*
 
 Compare your leak metrics against industry benchmarks:
 
@@ -206,7 +215,9 @@ POST /api/v1/escalations
 - Email, Slack, and Teams notifications
 - Pending escalation visibility for proactive management
 
-## 📦 HubSpot App Objects
+## 📦 HubSpot App Objects *(Beta — HubSpot Enterprise Required)*
+
+> ⚠️ **App Objects require HubSpot approval.** [Request access here](https://developers.hubspot.com/beta-programs/app-objects).
 
 The app stores all data natively in HubSpot using custom App Objects:
 
@@ -255,38 +266,32 @@ Timeline events are logged for:
 
 ## 🚀 HubSpot App Installation
 
-### Install as Private App
+### Prerequisites
 
-1. **Download or clone this repository**
-2. **Deploy to your hosting provider** (Heroku, AWS, Vercel, etc.)
-3. **Configure environment variables:**
-   ```env
-   HUBSPOT_CLIENT_ID=your_client_id
-   HUBSPOT_CLIENT_SECRET=your_client_secret
-   HUBSPOT_REDIRECT_URI=https://your-app.com/oauth/callback
-   ```
-4. **Install in HubSpot:**
-   - Go to HubSpot > Settings > Integrations > Private Apps
-   - Click "Create a private app"
-   - Import the `src/app/app-hsmeta.json` configuration
-   - Configure OAuth scopes and webhook endpoints
-5. **Complete the In-App Setup Wizard** that appears after installation
+Before installing this app, ensure you have:
+1. **HubSpot Enterprise subscription** — Required for App Objects, Custom Workflow Actions, and advanced features
+2. **App Objects access approval** — [Request access here](https://developers.hubspot.com/beta-programs/app-objects)
+3. **HubSpot CLI v7.6+** — For developers deploying the app
 
 ### Deploy with HubSpot CLI
+
+Install this app via HubSpot CLI using the `hs project upload` and `hs project deploy` commands. No external hosting or manual client ID configuration is required.
 
 ```bash
 # Install HubSpot CLI
 npm install -g @hubspot/cli@latest
 
-# Authenticate
+# Authenticate with your HubSpot account
 hs auth
 
-# Upload the app
+# Upload the app to your HubSpot account
 hs project upload
 
-# Deploy
+# Deploy the app
 hs project deploy
 ```
+
+> **Note:** Serverless functions are automatically built and hosted by HubSpot when deployed via CLI. Functions must be kept under [HubSpot's resource limits](https://developers.hubspot.com/docs/platform/serverless-functions#limits).
 
 ### In-App Onboarding Wizard
 
@@ -335,7 +340,7 @@ Configure the app directly in HubSpot:
 - Edit automation preferences
 - Advanced JSON configuration mode
 
-## 🔄 Workflow Actions
+## 🔄 Workflow Actions *(HubSpot Enterprise Required)*
 
 Use these custom workflow actions in HubSpot (all support Breeze Agents):
 
@@ -532,6 +537,33 @@ GET  /api/v1/export/audit                 # Export audit log
 
 ## 🛠️ Development
 
+### HubSpot Native App Development
+
+These commands are for deploying and managing the HubSpot native app:
+
+```bash
+# Install HubSpot CLI
+npm install -g @hubspot/cli@latest
+
+# Authenticate with HubSpot
+hs auth
+
+# Upload the app to HubSpot
+hs project upload
+
+# Deploy the app
+hs project deploy
+
+# Watch for local changes during development
+hs project dev
+```
+
+> **Note:** Serverless functions are automatically built and hosted by HubSpot when deployed via CLI. Functions must adhere to [HubSpot's resource limits](https://developers.hubspot.com/docs/platform/serverless-functions#limits).
+
+### External API & Server Development
+
+These commands are for developing and testing the external server components (only required if using external integrations like Stripe, QuickBooks, etc.):
+
 ```bash
 # Install dependencies
 npm install
@@ -547,15 +579,11 @@ npm test
 
 # Lint code
 npm run lint
-
-# Deploy to HubSpot
-hs project upload
-hs project deploy
 ```
 
-## 📋 Legacy CLI Support
+## 🧰 Legacy CLI Tools (for developers only)
 
-The CLI commands are still available for backward compatibility:
+The CLI commands are preserved for testing, debugging, or developer-side scripting. **End users interact with the app entirely through HubSpot's UI.**
 
 ```bash
 # Initialize configuration (creates config file)
@@ -571,20 +599,27 @@ npx leak-engine config show
 npx leak-engine dashboard
 ```
 
-**Note:** For the best experience, we recommend using the HubSpot embedded UI which provides the same functionality with a more user-friendly interface and zero terminal interaction required.
+> **Note:** For the best experience, we recommend using the HubSpot embedded UI which provides the same functionality with a more user-friendly interface and zero terminal interaction required.
 
 ## 📄 Environment Configuration
 
+> **Note:** The following environment variables are only required for **external API integrations** (e.g., Stripe, QuickBooks, Slack). They are **not needed for native HubSpot app functionality** when deployed via `hs project deploy`.
+
 ```env
-# Required for HubSpot App
-HUBSPOT_CLIENT_ID=your_client_id
-HUBSPOT_CLIENT_SECRET=your_client_secret
-HUBSPOT_REDIRECT_URI=https://your-app.com/oauth/callback
+# External Integration Configuration (only for external API use)
+# These are NOT needed for native HubSpot app functionality
 
-# For serverless functions
-PRIVATE_APP_ACCESS_TOKEN=your_private_app_token
+# Stripe Integration (optional - for payment sync)
+STRIPE_API_KEY=your_stripe_key
 
-# Optional
+# QuickBooks Integration (optional - for invoice sync)
+QUICKBOOKS_CLIENT_ID=your_quickbooks_client_id
+QUICKBOOKS_CLIENT_SECRET=your_quickbooks_secret
+
+# Slack Integration (optional - for notifications)
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/...
+
+# Server Configuration (only for external server deployment)
 PORT=3000
 NODE_ENV=production
 ```
